@@ -593,10 +593,9 @@ body:has(.quiz-shell:focus-within) .assistant { visibility: hidden; opacity: 0; 
 
 @media (max-width: 799px) {
   .hero__content { justify-content: center; padding-block: 88px 132px; }
-  .hero__copy { min-height: 0; }
-  .hero--leadership .hero__copy { width: 68%; }
+  .hero__copy { width: 68%; min-height: 0; }
   .hero--leadership h1 { max-width: none; font-size: clamp(1.9rem, 8vw, 2.15rem); }
-  .hero--leadership .button { gap: 8px; padding-inline: 10px; font-size: .88rem; }
+  .hero--leadership .button { font-size: .88rem; }
   .hero__media--association img { object-position: 78% center; }
   .hero__media--benefits img { object-position: 70% center; }
   .hero__media--leadership img { object-position: center 27%; }
@@ -714,12 +713,12 @@ html { background: #000; }
 }
 
 /* Refined Hero/form transition and carousel playback controls */
-.hero__copy .button { width: min(320px, calc(100vw - 32px)); min-width: min(320px, calc(100vw - 32px)); min-height: 52px; flex-shrink: 0; align-self: flex-start; justify-content: space-between; padding-inline: 20px; text-align: left; }
+.hero__copy .button { width: min(288px, 100%); min-width: 0; min-height: 52px; flex-shrink: 0; align-self: flex-start; justify-content: space-between; gap: 10px; padding-inline: 14px; font-size: .88rem; text-align: left; }
 .hero__controls { display: grid; grid-template-rows: auto auto; justify-items: center; gap: 2px; }
 .hero__counter { display: flex; align-items: center; gap: 8px; }
-.hero__pause { width: auto; height: 32px; min-height: 32px; display: inline-flex; justify-content: center; align-items: center; gap: 6px; padding: 4px 10px; border: 1px solid rgba(255,255,255,.25); border-radius: 6px; background: rgba(0,0,0,.3); color: rgba(255,255,255,.88); font-size: .63rem; font-weight: 750; letter-spacing: .09em; text-transform: uppercase; cursor: pointer; transition: border-color .2s, background-color .2s, transform .2s; }
-.hero__controls > .hero__pause { width: auto; height: 32px; min-height: 32px; border: 1px solid rgba(255,255,255,.25); border-radius: 6px; background: rgba(0,0,0,.3); color: rgba(255,255,255,.88); }
-.hero__pause:hover { border-color: rgba(255,255,255,.55); background: rgba(0,0,0,.52); }
+.hero__pause { width: auto; height: 26px; min-height: 26px; display: inline-flex; justify-content: center; align-items: center; gap: 5px; padding: 2px 8px; border: 1px solid rgba(255,255,255,.14); border-radius: 99px; background: rgba(0,0,0,.12); color: rgba(255,255,255,.68); font-size: .56rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; opacity: .78; transition: border-color .2s, background-color .2s, transform .2s, opacity .2s; }
+.hero__controls > .hero__pause { width: auto; height: 26px; min-height: 26px; border: 1px solid rgba(255,255,255,.14); border-radius: 99px; background: rgba(0,0,0,.12); color: rgba(255,255,255,.68); }
+.hero__pause:hover { border-color: rgba(255,255,255,.3); background: rgba(0,0,0,.26); color: #fff; opacity: 1; }
 .hero__pause:active { transform: scale(.97); }
 .quiz-stage { isolation: isolate; }
 .hero__scroll-cue { position: absolute; z-index: 6; top: -67px; left: 50%; display: grid; justify-items: center; gap: 3px; margin: 0; color: rgba(255,255,255,.92); font-size: .66rem; letter-spacing: .08em; text-align: center; white-space: nowrap; transform: translateX(-50%); }
