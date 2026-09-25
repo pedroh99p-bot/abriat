@@ -10,7 +10,7 @@ import {
   UsersRound,
 } from 'lucide-react'
 import { type KeyboardEvent, useRef, useState } from 'react'
-import { benefits, faqs, pillars, profiles } from '../data/content'
+import { benefits, faqs, pillars, profiles, siteConfig } from '../data/content'
 import { track } from '../lib/analytics'
 import { AssociationCta } from './AssociationCta'
 import { SectionHeading } from './SectionHeading'
@@ -85,13 +85,7 @@ function CredentialMockup() {
 export function FounderSection() {
   return (
     <section className="founder" id="fundador">
-      <div className="founder__visual" aria-label="Espaço reservado para a fotografia oficial do fundador">
-        <div className="founder__placeholder">
-          <Target aria-hidden="true" />
-          <strong>Foto oficial</strong>
-          <span>Aguardando material institucional</span>
-        </div>
-      </div>
+      <div className="founder__visual"><img src={siteConfig.assets.founder} alt="Paulo Dornelas, fundador da ABRIAT" width="1122" height="1402" /></div>
       <div className="founder__shade" />
       <div className="container founder__content">
         <div>
@@ -99,11 +93,12 @@ export function FounderSection() {
           <h2>Paulo <em>Dornelas</em></h2>
           <p className="founder__alias">Dr das Armas</p>
           <p className="founder__role">Fundador da ABRIAT</p>
-          <p className="founder__copy">A biografia e a fotografia oficiais serão incorporadas após o envio e a validação do material institucional.</p>
+          <p className="founder__copy">Instrutor de armamento e tiro e despachante de armas, com atuação nacional.</p>
+          <ul className="founder__highlights"><li>Instrutor de armamento e tiro</li><li>Despachante de armas</li><li>Atuação nacional</li></ul>
           <div className="founder__actions">
-            <AssociationCta source="founder">Tenho interesse em me associar</AssociationCta>
+            <a className="button button--outline-light" href={siteConfig.contacts.founderInstagramUrl} target="_blank" rel="noreferrer" onClick={() => track('founder_instagram_click', { destination: 'instagram' })}>Instagram {siteConfig.contacts.founderInstagramUsername} <ArrowRight aria-hidden="true" size={19} /></a>
+            <AssociationCta source="founder">Quero fazer parte da ABRIAT</AssociationCta>
           </div>
-          <p className="asset-note">Nenhum retrato ilustrativo é utilizado nesta seção.</p>
         </div>
       </div>
     </section>

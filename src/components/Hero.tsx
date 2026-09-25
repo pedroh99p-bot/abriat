@@ -55,7 +55,7 @@ export function Hero() {
 
   return (
     <section
-      className="hero"
+      className={`hero ${paused ? 'hero--paused' : ''}`}
       aria-roledescription="carrossel"
       aria-label="Destaques ABRIAT"
       onTouchStart={handleTouchStart}
@@ -65,7 +65,7 @@ export function Hero() {
       onFocusCapture={() => setPaused(true)}
       onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setPaused(false) }}
     >
-      <div className={`hero__media hero__media--${slide.crop}`} key={slide.image}>
+      <div className={`hero__media hero__media--${slide.crop}`} key={`${current}-${slide.image}`}>
         <img src={slide.image} alt={slide.alt} width="1680" height="944" />
         <div className="hero__shade" />
       </div>
@@ -96,7 +96,7 @@ export function Hero() {
                 aria-label={`Mostrar banner ${index + 1}: ${item.eyebrow}`}
                 onKeyDown={(event) => handleTabKey(event, index)}
                 onClick={() => goTo(index)}
-              ><span>0{index + 1}</span></button>
+              ><span>0{index + 1}</span><i aria-hidden="true" /></button>
             ))}
           </div>
           <button type="button" aria-label="Próximo banner" onClick={() => goTo(current + 1)}><ArrowRight aria-hidden="true" /></button>

@@ -4,7 +4,9 @@
 
 | Arquivo | Papel | Status |
 | --- | --- | --- |
-| `public/assets/logo-abriat.svg` | lockup vetorial para a interface | reconstrução vetorial baseada nas referências; validar contra arquivo oficial antes de publicar |
+| `public/assets/logo-abriat-oficial.webp` | lockup horizontal oficial da navbar e rodapé | fornecido pelo cliente |
+| `public/assets/paulo-dornelas.webp` | fotografia oficial do fundador | fornecida pelo cliente; usada somente na seção do fundador |
+| `public/favicon.webp` | favicon oficial ABRIAT | fornecido pelo cliente |
 | `hero-associacao.webp` | banner 1 | gerado por IA, ilustrativo, WebP otimizado |
 | `hero-beneficios.webp` | banner 2 | gerado por IA, ilustrativo, WebP otimizado |
 | `hero-fundador-ilustrativo.webp` | banner 3 e seção fundador | gerado por IA; não representa Paulo Dornelas; WebP otimizado |

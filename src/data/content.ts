@@ -11,6 +11,20 @@ import {
   UsersRound,
 } from 'lucide-react'
 
+export const siteConfig = {
+  assets: {
+    favicon: '/favicon.webp',
+    logo: '/assets/logo-abriat-oficial.webp',
+    founder: '/assets/paulo-dornelas.webp',
+  },
+  contacts: {
+    whatsappRaw: '83998858705',
+    whatsappWaMe: '5583998858705',
+    founderInstagramUsername: '@paulodornelasbr',
+    founderInstagramUrl: 'https://www.instagram.com/paulodornelasbr/',
+  },
+} as const
+
 export const navItems = [
   { label: 'Sobre', href: '#sobre' },
   { label: 'Benefícios', href: '#beneficios' },

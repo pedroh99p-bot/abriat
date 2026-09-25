@@ -3,15 +3,17 @@ import { useEffect, useRef, useState } from 'react'
 import { track } from '../lib/analytics'
 
 const actions = [
-  { label: 'Como me associar?', answer: 'Comece preenchendo o formulário de interesse. Depois, a equipe responsável poderá orientar sobre critérios, documentos e próximos passos.', target: '#quiz' },
+  { label: 'Como me associar?', answer: 'Comece preenchendo o formulário de interesse. Depois, a equipe responsável poderá orientar sobre critérios, documentos e próximos passos.', target: '#quiz', interestType: 'association' as const },
+  { label: 'Quero me tornar instrutor', answer: 'A ABRIAT pode orientar seu próximo passo e, quando aplicável, direcionar você a um estande ou parceiro para receber as orientações necessárias sobre o processo.', target: '#quiz', interestType: 'become_instructor' as const },
   { label: 'Quem pode fazer parte?', answer: 'Instrutores, profissionais autônomos e pessoas que atuam em clubes, estandes, escolas ou centros de treinamento podem demonstrar interesse.', target: '#perfis' },
   { label: 'Quais são os benefícios?', answer: 'A proposta reúne representatividade, rede profissional, visibilidade, conteúdo e estrutura para futuras parcerias.', target: '#beneficios' },
-  { label: 'Quero falar com a equipe', answer: 'O canal direto ainda não foi fornecido. Preencha o formulário para deixar seu interesse preparado para contato quando a integração for ativada.', target: '#quiz' },
+  { label: 'Quero falar com a equipe', answer: 'Preencha o formulário para receber orientação da equipe ABRIAT pelo WhatsApp.', target: '#quiz', interestType: 'association' as const },
 ]
 
 export function Assistant() {
   const [open, setOpen] = useState(false)
   const [answer, setAnswer] = useState('Olá! Posso ajudar com informações sobre a ABRIAT e o processo de associação.')
+  const [selected, setSelected] = useState<(typeof actions)[number]>(actions[0])
   const closeRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
@@ -35,12 +37,16 @@ export function Assistant() {
   }
 
   const select = (item: typeof actions[number]) => {
+    setSelected(item)
     setAnswer(item.answer)
     track('assistant_action', { action: item.label })
   }
 
-  const go = (target: string) => {
-    document.querySelector(target)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  const go = () => {
+    if (selected.target === '#quiz' && selected.interestType) {
+      window.dispatchEvent(new CustomEvent('abriat:quiz-interest', { detail: selected.interestType }))
+    }
+    document.querySelector(selected.target)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     setOpen(false)
   }
 
@@ -55,7 +61,7 @@ export function Assistant() {
               {actions.map((item) => <button type="button" key={item.label} onClick={() => select(item)}>{item.label}</button>)}
             </div>
           </div>
-          <button className="assistant__go" type="button" onClick={() => go(answer.includes('benefícios') ? '#beneficios' : answer.includes('clubes') ? '#perfis' : '#quiz')}>Ver na página <Send aria-hidden="true" size={16} /></button>
+          <button className="assistant__go" type="button" onClick={go}>Ver na página <Send aria-hidden="true" size={16} /></button>
           <p className="assistant__scope">Este assistente não responde questões técnicas sobre armamento.</p>
         </div>
       ) : null}

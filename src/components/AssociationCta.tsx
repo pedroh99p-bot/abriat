@@ -14,7 +14,10 @@ export function AssociationCta({ children, source, className = '', tabIndex }: A
       className={`button button--primary ${className}`}
       href="#quiz"
       tabIndex={tabIndex}
-      onClick={() => track('hero_slide_click', { cta_context: source, destination: 'quiz' })}
+      onClick={() => {
+        window.dispatchEvent(new CustomEvent('abriat:quiz-interest', { detail: 'association' }))
+        track('hero_slide_click', { cta_context: source, destination: 'quiz' })
+      }}
     >
       <span>{children}</span>
       <ArrowRight aria-hidden="true" size={19} />
