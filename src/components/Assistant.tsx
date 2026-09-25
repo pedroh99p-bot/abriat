@@ -1,0 +1,67 @@
+import { Bot, MessageCircle, Send, X } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { track } from '../lib/analytics'
+
+const actions = [
+  { label: 'Como me associar?', answer: 'Comece preenchendo o formulário de interesse. Depois, a equipe responsável poderá orientar sobre critérios, documentos e próximos passos.', target: '#quiz' },
+  { label: 'Quem pode fazer parte?', answer: 'Instrutores, profissionais autônomos e pessoas que atuam em clubes, estandes, escolas ou centros de treinamento podem demonstrar interesse.', target: '#perfis' },
+  { label: 'Quais são os benefícios?', answer: 'A proposta reúne representatividade, rede profissional, visibilidade, conteúdo e estrutura para futuras parcerias.', target: '#beneficios' },
+  { label: 'Quero falar com a equipe', answer: 'O canal direto ainda não foi fornecido. Preencha o formulário para deixar seu interesse preparado para contato quando a integração for ativada.', target: '#quiz' },
+]
+
+export function Assistant() {
+  const [open, setOpen] = useState(false)
+  const [answer, setAnswer] = useState('Olá! Posso ajudar com informações sobre a ABRIAT e o processo de associação.')
+  const closeRef = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    const openAssistant = () => setOpen(true)
+    window.addEventListener('abriat:open-assistant', openAssistant)
+    return () => window.removeEventListener('abriat:open-assistant', openAssistant)
+  }, [])
+
+  useEffect(() => {
+    if (!open) return
+    closeRef.current?.focus()
+    const closeOnEscape = (event: KeyboardEvent) => { if (event.key === 'Escape') setOpen(false) }
+    document.addEventListener('keydown', closeOnEscape)
+    return () => document.removeEventListener('keydown', closeOnEscape)
+  }, [open])
+
+  const toggle = () => {
+    const next = !open
+    setOpen(next)
+    if (next) track('assistant_open', { state: 'open' })
+  }
+
+  const select = (item: typeof actions[number]) => {
+    setAnswer(item.answer)
+    track('assistant_action', { action: item.label })
+  }
+
+  const go = (target: string) => {
+    document.querySelector(target)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    setOpen(false)
+  }
+
+  return (
+    <aside className={`assistant ${open ? 'assistant--open' : ''}`} aria-label="Assistente ABRIAT">
+      {open ? (
+        <div className="assistant__panel" role="dialog" aria-modal="false" aria-labelledby="assistant-title">
+          <div className="assistant__header"><span><Bot aria-hidden="true" /></span><div><strong id="assistant-title">Assistente ABRIAT</strong><small>Informações institucionais</small></div><button ref={closeRef} type="button" aria-label="Fechar assistente" onClick={() => setOpen(false)}><X aria-hidden="true" /></button></div>
+          <div className="assistant__body">
+            <p className="assistant__message">{answer}</p>
+            <div className="assistant__options">
+              {actions.map((item) => <button type="button" key={item.label} onClick={() => select(item)}>{item.label}</button>)}
+            </div>
+          </div>
+          <button className="assistant__go" type="button" onClick={() => go(answer.includes('benefícios') ? '#beneficios' : answer.includes('clubes') ? '#perfis' : '#quiz')}>Ver na página <Send aria-hidden="true" size={16} /></button>
+          <p className="assistant__scope">Este assistente não responde questões técnicas sobre armamento.</p>
+        </div>
+      ) : null}
+      <button className="assistant__trigger" type="button" aria-expanded={open} onClick={toggle}>
+        <span><MessageCircle aria-hidden="true" /></span><span><strong>Assistente ABRIAT</strong><small>Tire suas dúvidas</small></span>
+      </button>
+    </aside>
+  )
+}

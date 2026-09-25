@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 116" role="img" aria-labelledby="title desc">
+  <title id="title">ABRIAT</title>
+  <desc id="desc">Associação Brasileira dos Instrutores de Armamento e Tiro</desc>
+  <g fill="#080808">
+    <path d="M12 74 57 12h35l45 62h-35L75 36 47 74z"/>
+    <path d="M137 12h88c20 0 31 10 31 25 0 10-5 17-15 21 13 4 19 13 19 27 0 19-13 29-38 29h-85zm34 23v13h47c6 0 9-2 9-6s-3-7-9-7zm0 36v17h50c7 0 10-3 10-8 0-6-3-9-10-9z" transform="translate(0,-7) scale(1,.72)"/>
+    <path d="M270 12h88c28 0 43 13 43 36 0 16-8 27-24 33l30 33h-41l-26-29h-36v29h-34zm34 25v23h51c8 0 12-4 12-12s-4-11-12-11z" transform="translate(-10,-7) scale(1,.72)"/>
+    <path d="M402 5h32v75h-32z"/>
+    <path d="M445 5h68v25h-18v50h-32V30h-18z"/>
+  </g>
+  <circle cx="479" cy="18" r="10" fill="#e30613" stroke="#fff" stroke-width="3"/>
+  <path d="M479 2v8M479 26v10M463 18h8M487 18h18" stroke="#080808" stroke-width="3"/>
+  <text x="13" y="106" font-family="Arial, sans-serif" font-size="10.6" letter-spacing="1.05" fill="#080808">ASSOCIAÇÃO BRASILEIRA DOS INSTRUTORES DE ARMAMENTO E TIRO</text>
+</svg>
