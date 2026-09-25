@@ -28,7 +28,8 @@ export const heroSlides = [
     cta: 'Quero conhecer a associação',
     href: '#quiz',
     image: '/assets/hero-associacao.webp',
-    alt: 'Instrutor acompanha uma atividade em estande de treinamento',
+    alt: 'Imagem ilustrativa de atividade profissional em ambiente de treinamento',
+    crop: 'association',
   },
   {
     eyebrow: 'Benefícios ABRIAT',
@@ -39,6 +40,7 @@ export const heroSlides = [
     href: '#beneficios',
     image: '/assets/hero-beneficios.webp',
     alt: 'Equipamentos profissionais e credencial em composição institucional',
+    crop: 'benefits',
   },
   {
     eyebrow: 'Conheça a liderança',
@@ -48,7 +50,8 @@ export const heroSlides = [
     cta: 'Conhecer o fundador',
     href: '#fundador',
     image: '/assets/hero-associacao.webp',
-    alt: 'Retrato editorial ilustrativo de liderança em ambiente profissional',
+    alt: 'Imagem ilustrativa de atividade profissional em ambiente de treinamento',
+    crop: 'leadership',
   },
 ]
 

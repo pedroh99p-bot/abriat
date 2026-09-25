@@ -194,7 +194,7 @@ export function FaqSection() {
             return (
               <div className={`accordion__item ${isOpen ? 'accordion__item--open' : ''}`} key={item.question}>
                 <h3><button type="button" aria-expanded={isOpen} aria-controls={`faq-answer-${index}`} onClick={() => toggle(index)}><span>{item.question}</span><ChevronDown aria-hidden="true" /></button></h3>
-                <div className="accordion__answer" id={`faq-answer-${index}`} hidden={!isOpen}><p>{item.answer}</p></div>
+                <div className={`accordion__answer ${isOpen ? 'accordion__answer--open' : ''}`} id={`faq-answer-${index}`} aria-hidden={!isOpen}><div><p>{item.answer}</p></div></div>
               </div>
             )
           })}
