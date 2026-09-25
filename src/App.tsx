@@ -1,10 +1,11 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Assistant } from './components/Assistant'
 import { BenefitsSection, FaqSection, FinalCta, FounderSection, ProcessSection, ProfilesSection, WhySection } from './components/Sections'
 import { Footer } from './components/Footer'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
 import { Quiz } from './components/Quiz'
+import { siteConfig } from './data/content'
 import { track } from './lib/analytics'
 
 export default function App() {
@@ -34,6 +35,7 @@ export default function App() {
 
   return (
     <>
+      <SitePreloader />
       <Header />
       <main id="conteudo">
         <Hero />
@@ -51,6 +53,45 @@ export default function App() {
       <Footer />
       <Assistant />
     </>
+  )
+}
+
+function SitePreloader() {
+  const [visible, setVisible] = useState(true)
+  const [leaving, setLeaving] = useState(false)
+
+  useEffect(() => {
+    let pageLoaded = document.readyState === 'complete'
+    let minimumTimeElapsed = false
+    let exitTimer: number | undefined
+    const dismissWhenReady = () => {
+      if (!pageLoaded || !minimumTimeElapsed) return
+      setLeaving(true)
+      exitTimer = window.setTimeout(() => setVisible(false), 320)
+    }
+    const onLoad = () => {
+      pageLoaded = true
+      dismissWhenReady()
+    }
+    window.addEventListener('load', onLoad)
+    const minimumTimer = window.setTimeout(() => {
+      minimumTimeElapsed = true
+      dismissWhenReady()
+    }, 520)
+    return () => {
+      window.removeEventListener('load', onLoad)
+      window.clearTimeout(minimumTimer)
+      window.clearTimeout(exitTimer)
+    }
+  }, [])
+
+  if (!visible) return null
+  return (
+    <div className={`site-preloader ${leaving ? 'site-preloader--leaving' : ''}`} role="status" aria-live="polite">
+      <img className="site-preloader__logo" src={siteConfig.assets.logo} alt="ABRIAT" />
+      <p>Preparando sua experiência</p>
+      <span className="site-preloader__progress" aria-hidden="true"><i /></span>
+    </div>
   )
 }
 

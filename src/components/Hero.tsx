@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ChevronDown } from 'lucide-react'
 import { type KeyboardEvent, type TouchEvent, useEffect, useRef, useState } from 'react'
 import { heroSlides } from '../data/content'
 import { track } from '../lib/analytics'
@@ -85,6 +85,10 @@ export function Hero() {
             onClick={() => track('hero_slide_click', { slide_index: current + 1, destination: slide.href })}
           >
             <span>{slide.cta}</span><ArrowRight aria-hidden="true" size={19} />
+          </a>
+          <a className="hero__scroll-cue" href="#quiz">
+            <span>Desça para saber como participar</span>
+            <i aria-hidden="true"><ChevronDown size={16} /></i>
           </a>
         </div>
         <div className="hero__controls">
