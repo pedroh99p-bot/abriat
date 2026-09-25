@@ -14,12 +14,15 @@ import {
 export const siteConfig = {
   assets: {
     favicon: '/favicon.webp',
-    logo: '/assets/logo-abriat-oficial.webp',
+    logo: '/assets/logo-abriat-navbar.webp',
+    footerLogo: '/assets/logo-abriat-footer.webp',
     founder: '/assets/paulo-dornelas.webp',
   },
   contacts: {
     whatsappRaw: '83998858705',
     whatsappWaMe: '5583998858705',
+    abriatInstagramUsername: '@abriat.brasil',
+    abriatInstagramUrl: 'https://www.instagram.com/abriat.brasil/',
     founderInstagramUsername: '@paulodornelasbr',
     founderInstagramUrl: 'https://www.instagram.com/paulodornelasbr/',
   },
@@ -63,8 +66,8 @@ export const heroSlides = [
     description: 'Conheça Paulo Dornelas, fundador da ABRIAT, e a proposta que orienta a associação.',
     cta: 'Conhecer o fundador',
     href: '#fundador',
-    image: '/assets/hero-associacao.webp',
-    alt: 'Imagem ilustrativa de atividade profissional em ambiente de treinamento',
+    image: '/assets/hero-paulo-dornelas.webp',
+    alt: 'Paulo Dornelas em composição institucional para apresentação da liderança da ABRIAT',
     crop: 'leadership',
   },
 ]

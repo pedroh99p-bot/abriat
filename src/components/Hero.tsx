@@ -55,7 +55,7 @@ export function Hero() {
 
   return (
     <section
-      className={`hero ${paused ? 'hero--paused' : ''}`}
+      className={`hero ${paused ? 'hero--paused' : ''} ${slide.crop === 'leadership' ? 'hero--leadership' : ''}`}
       aria-roledescription="carrossel"
       aria-label="Destaques ABRIAT"
       onTouchStart={handleTouchStart}

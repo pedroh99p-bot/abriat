@@ -9,7 +9,7 @@ import {
   Target,
   UsersRound,
 } from 'lucide-react'
-import { type KeyboardEvent, useRef, useState } from 'react'
+import { type KeyboardEvent, useEffect, useRef, useState } from 'react'
 import { benefits, faqs, pillars, profiles, siteConfig } from '../data/content'
 import { track } from '../lib/analytics'
 import { AssociationCta } from './AssociationCta'
@@ -93,8 +93,8 @@ export function FounderSection() {
           <h2>Paulo <em>Dornelas</em></h2>
           <p className="founder__alias">Dr das Armas</p>
           <p className="founder__role">Fundador da ABRIAT</p>
-          <p className="founder__copy">Instrutor de armamento e tiro e despachante de armas, com atuação nacional.</p>
-          <ul className="founder__highlights"><li>Instrutor de armamento e tiro</li><li>Despachante de armas</li><li>Atuação nacional</li></ul>
+          <p className="founder__copy">Sua experiência no setor orienta a construção de uma associação conectada às necessidades de quem vive a instrução.</p>
+          <FounderAuthority />
           <div className="founder__actions">
             <a className="button button--outline-light" href={siteConfig.contacts.founderInstagramUrl} target="_blank" rel="noreferrer" onClick={() => track('founder_instagram_click', { destination: 'instagram' })}>Instagram {siteConfig.contacts.founderInstagramUsername} <ArrowRight aria-hidden="true" size={19} /></a>
             <AssociationCta source="founder">Quero fazer parte da ABRIAT</AssociationCta>
@@ -102,6 +102,53 @@ export function FounderSection() {
         </div>
       </div>
     </section>
+  )
+}
+
+function FounderAuthority() {
+  const [count, setCount] = useState(0)
+  const blockRef = useRef<HTMLDivElement>(null)
+  const started = useRef(false)
+
+  useEffect(() => {
+    const block = blockRef.current
+    if (!block) return
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reducedMotion) {
+      setCount(533)
+      return
+    }
+
+    let frame = 0
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting || started.current) return
+      started.current = true
+      observer.disconnect()
+      const duration = 1500
+      const begin = performance.now()
+      const update = (now: number) => {
+        const progress = Math.min((now - begin) / duration, 1)
+        setCount(Math.round(533 * (1 - (1 - progress) ** 3)))
+        if (progress < 1) frame = requestAnimationFrame(update)
+      }
+      frame = requestAnimationFrame(update)
+    }, { threshold: 0.35 })
+    observer.observe(block)
+    return () => {
+      observer.disconnect()
+      cancelAnimationFrame(frame)
+    }
+  }, [])
+
+  return (
+    <div className="founder-authority" ref={blockRef} aria-label="Indicadores sobre o fundador e a ABRIAT">
+      <div className="founder-authority__item founder-authority__item--followers">
+        <strong aria-hidden="true">{count}K+</strong><span className="sr-only">533 mil</span>
+        <span>Seguidores</span>
+      </div>
+      <div className="founder-authority__item"><strong>Atuação</strong><span>Nacional</span></div>
+      <div className="founder-authority__item"><strong>Fundador</strong><span>ABRIAT</span></div>
+    </div>
   )
 }
 

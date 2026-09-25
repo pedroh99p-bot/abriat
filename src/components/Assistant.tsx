@@ -1,4 +1,4 @@
-import { Bot, MessageCircle, Send, X } from 'lucide-react'
+import { Bot, Send, X } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { track } from '../lib/analytics'
 
@@ -12,6 +12,7 @@ const actions = [
 
 export function Assistant() {
   const [open, setOpen] = useState(false)
+  const [obstructingContentVisible, setObstructingContentVisible] = useState(false)
   const [answer, setAnswer] = useState('Olá! Posso ajudar com informações sobre a ABRIAT e o processo de associação.')
   const [selected, setSelected] = useState<(typeof actions)[number]>(actions[0])
   const closeRef = useRef<HTMLButtonElement>(null)
@@ -20,6 +21,32 @@ export function Assistant() {
     const openAssistant = () => setOpen(true)
     window.addEventListener('abriat:open-assistant', openAssistant)
     return () => window.removeEventListener('abriat:open-assistant', openAssistant)
+  }, [])
+
+  useEffect(() => {
+    const targets = Array.from(document.querySelectorAll('.quiz-stage, .process, .final-cta, .footer'))
+    if (targets.length === 0) return
+    const visibility = new Map<Element, boolean>()
+    const syncVisibility = () => {
+      const triggerRect = document.querySelector('.assistant__trigger')?.getBoundingClientRect()
+      const overlapsCta = Boolean(triggerRect && [...document.querySelectorAll('main .button')].some((button) => {
+        const rect = button.getBoundingClientRect()
+        return rect.bottom > triggerRect.top && rect.top < triggerRect.bottom && rect.right > triggerRect.left && rect.left < triggerRect.right
+      }))
+      setObstructingContentVisible([...visibility.values()].some(Boolean) || overlapsCta)
+    }
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) visibility.set(entry.target, entry.isIntersecting)
+      syncVisibility()
+    }, { threshold: 0.01 })
+    targets.forEach((target) => observer.observe(target))
+    window.addEventListener('scroll', syncVisibility, { passive: true })
+    window.addEventListener('resize', syncVisibility)
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('scroll', syncVisibility)
+      window.removeEventListener('resize', syncVisibility)
+    }
   }, [])
 
   useEffect(() => {
@@ -51,7 +78,7 @@ export function Assistant() {
   }
 
   return (
-    <aside className={`assistant ${open ? 'assistant--open' : ''}`} aria-label="Assistente ABRIAT">
+    <aside className={`assistant ${open ? 'assistant--open' : ''} ${obstructingContentVisible ? 'assistant--content-visible' : ''}`} aria-label="Assistente ABRIAT">
       {open ? (
         <div className="assistant__panel" role="dialog" aria-modal="false" aria-labelledby="assistant-title">
           <div className="assistant__header"><span><Bot aria-hidden="true" /></span><div><strong id="assistant-title">Assistente ABRIAT</strong><small>Informações institucionais</small></div><button ref={closeRef} type="button" aria-label="Fechar assistente" onClick={() => setOpen(false)}><X aria-hidden="true" /></button></div>
@@ -66,7 +93,7 @@ export function Assistant() {
         </div>
       ) : null}
       <button className="assistant__trigger" type="button" aria-expanded={open} onClick={toggle}>
-        <span><MessageCircle aria-hidden="true" /></span><span><strong>Assistente ABRIAT</strong><small>Tire suas dúvidas</small></span>
+        <span><Bot aria-hidden="true" /></span><span><strong>Assistente ABRIAT</strong><small>Tire suas dúvidas</small></span>
       </button>
     </aside>
   )
