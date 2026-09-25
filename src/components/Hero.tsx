@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, ChevronDown } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Pause, Play } from 'lucide-react'
 import { type KeyboardEvent, type TouchEvent, useEffect, useRef, useState } from 'react'
 import { heroSlides } from '../data/content'
 import { track } from '../lib/analytics'
@@ -6,10 +6,12 @@ import { track } from '../lib/analytics'
 export function Hero() {
   const [current, setCurrent] = useState(0)
   const [paused, setPaused] = useState(false)
+  const [manualPause, setManualPause] = useState<boolean | null>(null)
   const announced = useRef(new Set<number>())
   const touchStartX = useRef<number | null>(null)
   const resumeTimer = useRef<number | undefined>(undefined)
   const slide = heroSlides[current]
+  const isPaused = manualPause ?? paused
 
   useEffect(() => {
     if (!announced.current.has(current)) {
@@ -19,10 +21,10 @@ export function Hero() {
   }, [current, slide.eyebrow])
 
   useEffect(() => {
-    if (paused || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return
+    if (isPaused || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return
     const timer = window.setInterval(() => setCurrent((index) => (index + 1) % heroSlides.length), 5500)
     return () => window.clearInterval(timer)
-  }, [paused])
+  }, [isPaused])
 
   useEffect(() => {
     const syncVisibility = () => setPaused(document.hidden)
@@ -55,7 +57,7 @@ export function Hero() {
 
   return (
     <section
-      className={`hero ${paused ? 'hero--paused' : ''} ${slide.crop === 'leadership' ? 'hero--leadership' : ''}`}
+      className={`hero ${isPaused ? 'hero--paused' : ''} ${slide.crop === 'leadership' ? 'hero--leadership' : ''}`}
       aria-roledescription="carrossel"
       aria-label="Destaques ABRIAT"
       onTouchStart={handleTouchStart}
@@ -86,28 +88,30 @@ export function Hero() {
           >
             <span>{slide.cta}</span><ArrowRight aria-hidden="true" size={19} />
           </a>
-          <a className="hero__scroll-cue" href="#quiz">
-            <span>Desça para saber como participar</span>
-            <i aria-hidden="true"><ChevronDown size={16} /></i>
-          </a>
         </div>
         <div className="hero__controls">
-          <button type="button" aria-label="Banner anterior" onClick={() => goTo(current - 1)}><ArrowLeft aria-hidden="true" /></button>
-          <div className="hero__dots" role="tablist" aria-label="Selecionar banner">
-            {heroSlides.map((item, index) => (
-              <button
-                key={item.eyebrow}
-                type="button"
-                role="tab"
-                tabIndex={index === current ? 0 : -1}
-                aria-selected={index === current}
-                aria-label={`Mostrar banner ${index + 1}: ${item.eyebrow}`}
-                onKeyDown={(event) => handleTabKey(event, index)}
-                onClick={() => goTo(index)}
-              ><span>0{index + 1}</span><i aria-hidden="true" /></button>
-            ))}
+          <div className="hero__counter">
+            <button type="button" aria-label="Banner anterior" onClick={() => goTo(current - 1)}><ArrowLeft aria-hidden="true" /></button>
+            <div className="hero__dots" role="tablist" aria-label="Selecionar banner">
+              {heroSlides.map((item, index) => (
+                <button
+                  key={item.eyebrow}
+                  type="button"
+                  role="tab"
+                  tabIndex={index === current ? 0 : -1}
+                  aria-selected={index === current}
+                  aria-label={`Mostrar banner ${index + 1}: ${item.eyebrow}`}
+                  onKeyDown={(event) => handleTabKey(event, index)}
+                  onClick={() => goTo(index)}
+                ><span>0{index + 1}</span><i aria-hidden="true" /></button>
+              ))}
+            </div>
+            <button type="button" aria-label="Próximo banner" onClick={() => goTo(current + 1)}><ArrowRight aria-hidden="true" /></button>
           </div>
-          <button type="button" aria-label="Próximo banner" onClick={() => goTo(current + 1)}><ArrowRight aria-hidden="true" /></button>
+          <button className="hero__pause" type="button" aria-label={isPaused ? 'Retomar banners' : 'Pausar banners'} onClick={() => setManualPause(!isPaused)}>
+            {isPaused ? <Play aria-hidden="true" size={13} /> : <Pause aria-hidden="true" size={13} />}
+            <span>{isPaused ? 'Retomar' : 'Pausar'}</span>
+          </button>
         </div>
       </div>
     </section>

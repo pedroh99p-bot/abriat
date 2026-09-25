@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { ChevronDown } from 'lucide-react'
 import { Assistant } from './components/Assistant'
 import { BenefitsSection, FaqSection, FinalCta, FounderSection, ProcessSection, ProfilesSection, WhySection } from './components/Sections'
 import { Footer } from './components/Footer'
@@ -39,7 +40,13 @@ export default function App() {
       <Header />
       <main id="conteudo">
         <Hero />
-        <div className="quiz-stage"><div className="container"><Quiz /></div></div>
+        <div className="quiz-stage">
+          <a className="hero__scroll-cue" href="#quiz">
+            <span>Continue para saber como participar</span>
+            <i aria-hidden="true"><ChevronDown /><ChevronDown /></i>
+          </a>
+          <div className="container"><Quiz /></div>
+        </div>
         <TextRoller variant="dark" text="REPRESENTATIVIDADE • ESTRUTURA • CONEXÃO • VALORIZAÇÃO • ABRIAT" />
         <WhySection />
         <BenefitsSection />
