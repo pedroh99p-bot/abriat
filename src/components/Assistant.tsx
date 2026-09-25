@@ -12,6 +12,7 @@ const actions = [
 
 export function Assistant() {
   const [open, setOpen] = useState(false)
+  const [hasPassedSecondSection, setHasPassedSecondSection] = useState(false)
   const [obstructingContentVisible, setObstructingContentVisible] = useState(false)
   const [answer, setAnswer] = useState('Olá! Posso ajudar com informações sobre a ABRIAT e o processo de associação.')
   const [selected, setSelected] = useState<(typeof actions)[number]>(actions[0])
@@ -24,12 +25,29 @@ export function Assistant() {
   }, [])
 
   useEffect(() => {
-    const targets = Array.from(document.querySelectorAll('.quiz-stage, .process, .final-cta, .footer'))
+    const secondSection = document.querySelector<HTMLElement>('#beneficios')
+    if (!secondSection) return
+    const syncEntry = () => {
+      const sectionBottom = secondSection.getBoundingClientRect().bottom + window.scrollY
+      const hasPassed = window.scrollY > sectionBottom
+      setHasPassedSecondSection((current) => current === hasPassed ? current : hasPassed)
+    }
+    syncEntry()
+    window.addEventListener('scroll', syncEntry, { passive: true })
+    window.addEventListener('resize', syncEntry)
+    return () => {
+      window.removeEventListener('scroll', syncEntry)
+      window.removeEventListener('resize', syncEntry)
+    }
+  }, [])
+
+  useEffect(() => {
+    const targets = Array.from(document.querySelectorAll('.quiz-stage, .footer'))
     if (targets.length === 0) return
     const visibility = new Map<Element, boolean>()
     const syncVisibility = () => {
       const triggerRect = document.querySelector('.assistant__trigger')?.getBoundingClientRect()
-      const overlapsCta = Boolean(triggerRect && [...document.querySelectorAll('main .button')].some((button) => {
+      const overlapsCta = Boolean(triggerRect && [...document.querySelectorAll('main .button, .footer a')].some((button) => {
         const rect = button.getBoundingClientRect()
         return rect.bottom > triggerRect.top && rect.top < triggerRect.bottom && rect.right > triggerRect.left && rect.left < triggerRect.right
       }))
@@ -78,7 +96,7 @@ export function Assistant() {
   }
 
   return (
-    <aside className={`assistant ${open ? 'assistant--open' : ''} ${obstructingContentVisible ? 'assistant--content-visible' : ''}`} aria-label="Assistente ABRIAT">
+    <aside className={`assistant ${open ? 'assistant--open' : ''} ${hasPassedSecondSection ? 'assistant--eligible' : ''} ${obstructingContentVisible ? 'assistant--content-visible' : ''}`} aria-label="Assistente ABRIAT" aria-hidden={!hasPassedSecondSection}>
       {open ? (
         <div className="assistant__panel" role="dialog" aria-modal="false" aria-labelledby="assistant-title">
           <div className="assistant__header"><span><Bot aria-hidden="true" /></span><div><strong id="assistant-title">Assistente ABRIAT</strong><small>Informações institucionais</small></div><button ref={closeRef} type="button" aria-label="Fechar assistente" onClick={() => setOpen(false)}><X aria-hidden="true" /></button></div>

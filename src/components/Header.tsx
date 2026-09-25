@@ -7,6 +7,7 @@ import { AssociationCta } from './AssociationCta'
 export function Header() {
   const [open, setOpen] = useState(false)
   const firstLinkRef = useRef<HTMLAnchorElement>(null)
+  const progressRef = useRef<HTMLSpanElement>(null)
 
   useEffect(() => {
     if (!open) return
@@ -17,6 +18,26 @@ export function Header() {
     document.addEventListener('keydown', closeOnEscape)
     return () => document.removeEventListener('keydown', closeOnEscape)
   }, [open])
+
+  useEffect(() => {
+    let frame = 0
+    const updateProgress = () => {
+      cancelAnimationFrame(frame)
+      frame = requestAnimationFrame(() => {
+        const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight
+        const progress = scrollableHeight > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollableHeight)) : 0
+        progressRef.current?.style.setProperty('transform', `scaleX(${progress})`)
+      })
+    }
+    updateProgress()
+    window.addEventListener('scroll', updateProgress, { passive: true })
+    window.addEventListener('resize', updateProgress)
+    return () => {
+      cancelAnimationFrame(frame)
+      window.removeEventListener('scroll', updateProgress)
+      window.removeEventListener('resize', updateProgress)
+    }
+  }, [])
 
   return (
     <header className="site-header" id="top">
@@ -53,6 +74,7 @@ export function Header() {
           <AssociationCta source="mobile_menu" className="button--full" tabIndex={open ? 0 : -1}>Quero fazer parte</AssociationCta>
         </nav>
       </div>
+      <span ref={progressRef} className="site-header__progress" aria-hidden="true" />
     </header>
   )
 }

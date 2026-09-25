@@ -56,10 +56,11 @@ export default function App() {
 
 function TextRoller({ variant, text }: { variant: 'dark' | 'light'; text: string }) {
   const phrases = text.split(' • ')
+  const group = (copy: number) => phrases.map((phrase, index) => <span className="text-roller__phrase" key={`${copy}-${index}`}>{phrase}<i>•</i></span>)
   return (
     <div className={`text-roller text-roller--${variant}`} aria-hidden="true">
       <div className="text-roller__track">
-        {[0, 1, 2, 3].map((copy) => <span key={copy}>{phrases.map((phrase, index) => <span className="text-roller__phrase" key={`${copy}-${index}`}>{phrase}<i>•</i></span>)}</span>)}
+        {[0, 1].map((copy) => <span className="text-roller__group" key={copy}>{group(copy)}</span>)}
       </div>
     </div>
   )

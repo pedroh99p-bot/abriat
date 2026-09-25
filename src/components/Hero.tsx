@@ -65,13 +65,17 @@ export function Hero() {
       onFocusCapture={() => setPaused(true)}
       onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setPaused(false) }}
     >
-      <div className={`hero__media hero__media--${slide.crop}`} key={`${current}-${slide.image}`}>
-        <img src={slide.image} alt={slide.alt} width="1680" height="944" />
-        <div className="hero__shade" />
+      <div className="hero__media-stack">
+        {heroSlides.map((item, index) => (
+          <div className={`hero__media hero__media--${item.crop} ${index === current ? 'hero__media--active' : ''}`} key={item.image} aria-hidden={index !== current}>
+            <img src={item.image} alt={item.alt} width="1680" height="944" fetchPriority={index === current ? 'high' : 'low'} />
+          </div>
+        ))}
+        <div className="hero__shade" aria-hidden="true" />
       </div>
       <div className="hero__target" aria-hidden="true"><i /><i /><i /><b /></div>
       <div className="container hero__content" aria-live="polite" aria-atomic="true">
-        <div className="hero__copy">
+        <div className="hero__copy" key={current}>
           <p className="eyebrow eyebrow--light"><span aria-hidden="true" />{slide.eyebrow}</p>
           <h1>{slide.title}<strong>{slide.highlight}</strong></h1>
           <p className="hero__description">{slide.description}</p>
