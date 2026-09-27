@@ -71,9 +71,14 @@ export function BenefitsSection() {
             return (
               <article className={`benefit-card ${'logo' in benefit ? 'benefit-card--partner' : ''}`} key={benefit.title}>
                 <span className="benefit-card__number">0{index + 1}</span>
-                {'logo' in benefit ? <img className="benefit-card__partner-logo" src={benefit.logo} alt="Doutor das Armas Assessoria" width="1024" height="1024" loading="lazy" decoding="async" /> : Icon ? <Icon className="benefit-card__icon" aria-hidden="true" /> : null}
-                {benefit.highlight ? <strong className="benefit-card__highlight">{benefit.highlight}</strong> : null}
-                <h3>{benefit.title}</h3><p>{benefit.text}</p>
+                <span className="benefit-card__visual">
+                  {'logo' in benefit ? <img className="benefit-card__partner-logo" src={benefit.logo} alt="Doutor das Armas Assessoria" width="1024" height="1024" loading="lazy" decoding="async" /> : Icon ? <Icon className="benefit-card__icon" aria-hidden="true" /> : null}
+                </span>
+                <span className="benefit-card__divider" aria-hidden="true" />
+                <div className="benefit-card__copy">
+                  {benefit.highlight ? <strong className="benefit-card__highlight">{benefit.highlight}</strong> : null}
+                  <h3>{benefit.title}</h3><p>{benefit.text}</p>
+                </div>
               </article>
             )
           })}

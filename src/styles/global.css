@@ -1009,3 +1009,44 @@ html { background: #000; }
   .hero__scroll-cue i { animation: none; }
   .motion-ready .membership-stage__inner[data-reveal], .motion-ready .membership-stage__inner[data-reveal].is-visible { opacity: 1; transform: none; transition: none; }
 }
+
+/* Benefit card row layout and stable assistant anchoring */
+.benefit-card {
+  display: grid;
+  grid-template-columns: 48px 1px minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  min-height: 168px;
+  padding: 24px 22px;
+}
+.benefit-card__number { top: 12px; right: 14px; z-index: 1; }
+.benefit-card__visual { width: 48px; min-height: 52px; display: grid; place-items: center; }
+.benefit-card__icon { width: 27px; height: 27px; margin: 0; color: var(--red); stroke-width: 1.65; }
+.benefit-card__partner-logo { width: 48px; height: 48px; margin: 0; object-fit: contain; }
+.benefit-card__divider { width: 1px; height: min(76px, 72%); justify-self: center; background: #e2e2e0; }
+.benefit-card--partner .benefit-card__divider { background: rgba(174,132,17,.38); }
+.benefit-card__copy { min-width: 0; padding: 5px 17px 5px 0; }
+.benefit-card__copy h3 { max-width: 100%; margin: 0 0 6px; font-size: 1.12rem; line-height: 1.1; }
+.benefit-card__copy p { max-width: 290px; margin: 0; color: var(--muted); font-size: .82rem; line-height: 1.45; }
+.benefit-card__highlight { display: inline-block; margin: 0 0 6px; color: #876300; font-size: .64rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.benefit-indicator { display: none; }
+.benefits__cta { display: flex; width: min(100%, 320px); margin: 30px auto 0; }
+.assistant, .assistant--eligible, .assistant--content-visible { transform: none; }
+.assistant { transition: opacity .28s ease, visibility .28s ease; }
+
+@media (max-width: 799px) {
+  .benefit-card { flex-basis: 80vw; min-height: 142px; gap: 11px; padding: 20px 15px; }
+  .benefit-card__visual { width: 42px; min-height: 48px; }
+  .benefit-card__icon { width: 24px; height: 24px; }
+  .benefit-card__partner-logo { width: 42px; height: 42px; }
+  .benefit-card__copy { padding-right: 14px; }
+  .benefit-card__copy h3 { font-size: 1rem; }
+  .benefit-card__copy p { font-size: .76rem; }
+  .benefit-card__highlight { font-size: .6rem; }
+  .benefit-indicator { display: flex; }
+  .benefits__cta { margin-top: 30px; }
+}
+
+@media (min-width: 800px) {
+  .benefit-card { min-height: 176px; }
+}
