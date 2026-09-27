@@ -4,6 +4,8 @@ import {
   ChevronDown,
   Clock3,
   FileCheck2,
+  IdCard,
+  QrCode,
   Send,
   ShieldCheck,
   Target,
@@ -19,15 +21,12 @@ export function WhySection() {
   return (
     <section className="section why" id="sobre">
       <div className="container">
-        <div className="why__intro">
-          <SectionHeading eyebrow="Sobre a ABRIAT" title={<>Por que a ABRIAT <em>existe?</em></>} description="Para fortalecer a atuação dos instrutores de armamento e tiro no Brasil, promovendo representatividade, integração e desenvolvimento profissional." />
-          <blockquote>“Instruir é construir um Brasil mais seguro.”</blockquote>
-        </div>
+        <SectionHeading eyebrow="Sobre a ABRIAT" title={<>Uma associação para <em>fortalecer o instrutor.</em></>} description="A ABRIAT conecta instrutores de armamento e tiro no Brasil, fortalecendo sua representatividade, estrutura e valorização." />
         <div className="pillar-grid">
           {pillars.map(({ icon: Icon, title, text }) => (
             <article className="pillar-card" key={title}>
-              <span className="icon-box"><Icon aria-hidden="true" /></span>
-              <h3>{title}</h3><p>{text}</p>
+              <Icon className="pillar-card__icon" aria-hidden="true" />
+              <div><h3>{title}</h3><p>{text}</p></div>
             </article>
           ))}
         </div>
@@ -46,39 +45,77 @@ export function BenefitsSection() {
   }
   return (
     <section className="section benefits" id="beneficios">
-      <div className="container benefits__top">
-        <SectionHeading eyebrow="Benefícios ABRIAT" title={<>Mais que benefícios. <em>Estrutura para o IAT.</em></>} description="Conexão, presença e apoio para fortalecer sua atuação profissional." />
-        <CredentialMockup />
-      </div>
       <div className="container">
-        <p className="swipe-hint" aria-hidden="true">Deslize para conhecer <ArrowRight size={16} /></p>
-        <div className="benefit-track" onScroll={handleInteraction} onPointerDown={handleInteraction} tabIndex={0} aria-label="Benefícios, lista horizontal">
-          {benefits.map(({ icon: Icon, title, text }, index) => (
-            <article className="benefit-card" key={title}>
-              <span className="benefit-card__number">0{index + 1}</span>
-              <span className="icon-box"><Icon aria-hidden="true" /></span>
-              <h3>{title}</h3><p>{text}</p>
-            </article>
-          ))}
+        <SectionHeading eyebrow="Benefícios do associado" title={<>Vantagens reais para <em>sua atuação.</em></>} description="Recursos e condições especiais que acompanham o associado ABRIAT." />
+        <p className="swipe-hint">Deslize para ver os benefícios <ArrowRight size={16} aria-hidden="true" /></p>
+        <div className="benefit-track" onScroll={handleInteraction} onPointerDown={handleInteraction} tabIndex={0} role="region" aria-roledescription="carrossel" aria-label="Benefícios do associado">
+          {benefits.map((benefit, index) => {
+            const Icon = 'icon' in benefit ? benefit.icon : undefined
+            return (
+              <article className={`benefit-card ${'logo' in benefit ? 'benefit-card--partner' : ''}`} key={benefit.title}>
+                <span className="benefit-card__number">0{index + 1}</span>
+                {'logo' in benefit ? <img className="benefit-card__partner-logo" src={benefit.logo} alt="Doutor das Armas Assessoria" width="1024" height="1024" loading="lazy" decoding="async" /> : Icon ? <Icon className="benefit-card__icon" aria-hidden="true" /> : null}
+                {benefit.highlight ? <strong className="benefit-card__highlight">{benefit.highlight}</strong> : null}
+                <h3>{benefit.title}</h3><p>{benefit.text}</p>
+              </article>
+            )
+          })}
         </div>
-        <AssociationCta source="benefits" className="benefits__cta">Quero fazer parte dessa estrutura</AssociationCta>
+        <AssociationCta source="benefits" className="benefits__cta">Iniciar minha filiação</AssociationCta>
       </div>
     </section>
   )
 }
 
-function CredentialMockup() {
+const credentialFeatures = [
+  { icon: IdCard, title: 'Número individual', text: 'Identificação única do associado.' },
+  { icon: QrCode, title: 'QR Code', text: 'Validação vinculada ao cadastro.' },
+  { icon: ShieldCheck, title: 'Status', text: 'Consulta da situação da associação.' },
+]
+
+const credentialDetails = [
+  { title: 'Como funciona a credencial', text: 'Identifica o associado e seu número individual.' },
+  { title: 'Como funciona o QR Code', text: 'Permite consultar a situação da associação.' },
+  { title: 'O que pode ser validado', text: 'Status e informações autorizadas do associado.' },
+]
+
+export function CredentialSection() {
+  const [detailsOpen, setDetailsOpen] = useState(false)
   return (
-    <div className="credential" id="carteirinha" aria-label="Representação ilustrativa de credencial ABRIAT">
-      <div className="credential__brand"><Target aria-hidden="true" /><strong>ABRIAT</strong></div>
-      <span className="credential__label">CREDENCIAL ILUSTRATIVA</span>
-      <div className="credential__body">
-        <div className="credential__photo" aria-hidden="true"><UsersRound /></div>
-        <div><small>NOME</small><b>ASSOCIADO ABRIAT</b><small>CATEGORIA</small><b>INSTRUTOR</b><small>VALIDADE</small><b>— / —</b></div>
-        <div className="credential__qr" aria-hidden="true" />
+    <section className="section credential-section" id="carteirinha">
+      <div className="container credential-section__layout">
+        <header className="credential-section__heading">
+          <SectionHeading eyebrow="Credencial ABRIAT" title={<>Identificação e validação <em>em um só lugar.</em></>} description="Carteirinha do associado com número individual e validação por QR Code." />
+        </header>
+        <figure className="credential-section__visual" data-reveal>
+          <img src="/assets/credential-abriat-validation.webp" alt="Representação visual de uma carteirinha ABRIAT e um celular exibindo associação verificada" width="1024" height="1024" loading="lazy" decoding="async" />
+          <figcaption>Exemplo visual. A validação depende da implementação do cadastro do associado.</figcaption>
+        </figure>
+        <div className="credential-section__content">
+          <div className="credential-features" aria-label="Recursos da credencial">
+            {credentialFeatures.map(({ icon: Icon, title, text }) => (
+              <div className="credential-feature" key={title}>
+                <Icon aria-hidden="true" />
+                <div><h3>{title}</h3><p>{text}</p></div>
+              </div>
+            ))}
+          </div>
+          <div className="credential-details">
+            <h3>
+              <button type="button" aria-expanded={detailsOpen} aria-controls="credential-details-panel" onClick={() => setDetailsOpen((current) => !current)}>
+                <span>Saiba mais sobre a credencial e o QR Code</span><ChevronDown aria-hidden="true" />
+              </button>
+            </h3>
+            <div className={`credential-details__panel ${detailsOpen ? 'credential-details__panel--open' : ''}`} id="credential-details-panel" aria-hidden={!detailsOpen}>
+              <div><ul>
+                {credentialDetails.map((item) => <li key={item.title}><strong>{item.title}</strong><span>{item.text}</span></li>)}
+              </ul></div>
+            </div>
+          </div>
+          <AssociationCta source="credential" className="credential-section__cta">Iniciar minha filiação</AssociationCta>
+        </div>
       </div>
-      <p>TÉCNICA · DISCIPLINA · RESPONSABILIDADE</p>
-    </div>
+    </section>
   )
 }
 

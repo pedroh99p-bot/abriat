@@ -6,7 +6,7 @@ const actions = [
   { label: 'Como me associar?', answer: 'Comece preenchendo seus dados iniciais de filiação. A equipe responsável poderá orientar sobre critérios, documentos e próximos passos.', target: '#filiacao' },
   { label: 'Quero me tornar instrutor', answer: 'A ABRIAT pode orientar seu próximo passo e, quando aplicável, direcionar você a um estande ou parceiro para receber as orientações necessárias sobre o processo.', target: '#filiacao' },
   { label: 'Quem pode fazer parte?', answer: 'Instrutores, profissionais autônomos e pessoas que atuam em clubes, estandes, escolas ou centros de treinamento podem demonstrar interesse.', target: '#perfis' },
-  { label: 'Quais são os benefícios?', answer: 'A proposta reúne representatividade, rede profissional, visibilidade, conteúdo e estrutura para futuras parcerias.', target: '#beneficios' },
+  { label: 'Quais são os benefícios?', answer: 'A ABRIAT oferece carteira de identificação, cursos gratuitos de aperfeiçoamento, descontos em clubes parceiros, 50% de desconto na assessoria Doutor das Armas e divulgação para associados.', target: '#beneficios' },
   { label: 'Quero falar com a equipe', answer: 'Preencha seus dados iniciais e revise a mensagem antes de enviar pelo WhatsApp à equipe ABRIAT.', target: '#filiacao' },
 ]
 
@@ -39,6 +39,48 @@ export function Assistant() {
       window.removeEventListener('resize', syncEntry)
     }
   }, [])
+
+  useEffect(() => {
+    const assistant = document.querySelector<HTMLElement>('.assistant')
+    const trigger = assistant?.querySelector<HTMLElement>('.assistant__trigger')
+    if (!assistant || !trigger) return
+
+    let frame = 0
+    const updateClearance = () => {
+      cancelAnimationFrame(frame)
+      frame = requestAnimationFrame(() => {
+        assistant.style.setProperty('--assistant-lift', '0px')
+        if (!hasPassedForm || open) {
+          assistant.classList.remove('assistant--content-visible')
+          return
+        }
+
+        const triggerRect = trigger.getBoundingClientRect()
+        const blockers = document.querySelectorAll<HTMLElement>('.pillar-card, .benefits .section-heading, .benefit-track, .benefits__cta, .credential-section__heading, .credential-section__visual, .credential-details, .credential-section__cta')
+        let lift = 0
+        blockers.forEach((blocker) => {
+          const rect = blocker.getBoundingClientRect()
+          const overlaps = triggerRect.left < rect.right && triggerRect.right > rect.left && triggerRect.top < rect.bottom && triggerRect.bottom > rect.top
+          if (overlaps) lift = Math.max(lift, triggerRect.bottom - rect.top + 14)
+        })
+
+        const maxLift = Math.max(0, window.innerHeight - triggerRect.height - 90)
+        assistant.classList.toggle('assistant--content-visible', lift > maxLift)
+        assistant.style.setProperty('--assistant-lift', `${Math.min(lift, maxLift)}px`)
+      })
+    }
+
+    updateClearance()
+    window.addEventListener('scroll', updateClearance, { passive: true })
+    window.addEventListener('resize', updateClearance)
+    return () => {
+      cancelAnimationFrame(frame)
+      window.removeEventListener('scroll', updateClearance)
+      window.removeEventListener('resize', updateClearance)
+      assistant.classList.remove('assistant--content-visible')
+      assistant.style.removeProperty('--assistant-lift')
+    }
+  }, [hasPassedForm, open])
 
   useEffect(() => {
     if (!open) return

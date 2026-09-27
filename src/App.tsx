@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Assistant } from './components/Assistant'
-import { BenefitsSection, FaqSection, FinalCta, FounderSection, ProcessSection, ProfilesSection, WhySection } from './components/Sections'
+import { BenefitsSection, CredentialSection, FaqSection, FinalCta, FounderSection, ProcessSection, ProfilesSection, WhySection } from './components/Sections'
 import { Footer } from './components/Footer'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
@@ -54,6 +54,7 @@ export default function App() {
         <TextRoller variant="dark" text="REPRESENTATIVIDADE • ESTRUTURA • CONEXÃO • VALORIZAÇÃO • ABRIAT" />
         <WhySection />
         <BenefitsSection />
+        <CredentialSection />
         <TextRoller variant="light" text="CONHECIMENTO • DISCIPLINA • INSTRUÇÃO • RESPONSABILIDADE" />
         <FounderSection />
         <ProcessSection />

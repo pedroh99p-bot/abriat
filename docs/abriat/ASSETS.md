@@ -11,6 +11,8 @@
 | `public/assets/hero-filiacao.webp` | slide 1, instrutor à direita e safe area à esquerda | fornecido pelo cliente |
 | `public/assets/hero-beneficios.webp` | slide 2, carteira e elementos ABRIAT | fornecido pelo cliente |
 | `public/assets/hero-carteirinha.webp` | slide 3, carteirinha e validação visual por QR | fornecido pelo cliente |
+| `public/assets/partner-doutor-das-armas.webp` | logo oficial da assessoria no card de benefício | fornecida pelo cliente |
+| `public/assets/credential-abriat-validation.webp` | imagem demonstrativa da credencial e consulta visual | fornecida pelo cliente; não representa validação conectada |
 | Cloudinary social preview | preview social / Open Graph | imagem oficial usada nas meta tags do `index.html` |
 | `references/reference-01.png` a `reference-08.png` | direção visual | cópias das referências fornecidas pelo usuário |
 

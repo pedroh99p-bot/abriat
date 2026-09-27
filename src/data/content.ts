@@ -1,10 +1,11 @@
 import {
   BadgeCheck,
-  BookOpenCheck,
   BriefcaseBusiness,
   Building2,
-  Eye,
+  GraduationCap,
   Handshake,
+  IdCard,
+  Megaphone,
   Network,
   ShieldCheck,
   Target,
@@ -73,18 +74,18 @@ export const heroSlides = [
 ]
 
 export const pillars = [
-  { title: 'Representatividade', text: 'Fortalecimento da categoria junto a órgãos e instituições.', icon: UsersRound },
-  { title: 'Estrutura', text: 'Orientação e suporte institucional para a atuação profissional.', icon: ShieldCheck },
-  { title: 'Conexão', text: 'Aproximação entre profissionais de diferentes regiões do Brasil.', icon: Network },
-  { title: 'Valorização', text: 'Mais presença, reconhecimento e oportunidades para o instrutor.', icon: BadgeCheck },
+  { title: 'Representatividade', text: 'Uma voz mais forte para a categoria.', icon: UsersRound },
+  { title: 'Estrutura', text: 'Orientação e suporte institucional.', icon: ShieldCheck },
+  { title: 'Conexão', text: 'Instrutores mais conectados.', icon: Network },
+  { title: 'Valorização', text: 'Mais reconhecimento e oportunidades.', icon: BadgeCheck },
 ]
 
 export const benefits = [
-  { title: 'Representatividade', text: 'Uma voz mais forte para a categoria perante órgãos, instituições e entidades do setor.', icon: UsersRound },
-  { title: 'Rede profissional', text: 'Conexão com instrutores de diferentes regiões e novas possibilidades de colaboração.', icon: Network },
-  { title: 'Visibilidade', text: 'Um ambiente pensado para ampliar reconhecimento e credibilidade profissional.', icon: Eye },
-  { title: 'Conteúdo e atualização', text: 'Acesso futuro a materiais, orientações e capacitações da associação.', icon: BookOpenCheck },
-  { title: 'Parcerias', text: 'Estrutura para desenvolver condições com empresas e marcas alinhadas ao setor.', icon: Handshake },
+  { title: 'Carteira de identificação', text: 'Identificação do associado ABRIAT.', icon: IdCard },
+  { title: 'Cursos de aperfeiçoamento gratuitos', text: 'Capacitação contínua para associados.', icon: GraduationCap },
+  { title: 'Descontos em clubes parceiros', text: 'Condições especiais na rede parceira.', icon: Handshake },
+  { title: 'Assessoria Doutor das Armas', text: 'Condição especial para associados ABRIAT.', highlight: '50% de desconto', logo: '/assets/partner-doutor-das-armas.webp' },
+  { title: 'Divulgação no ecossistema ABRIAT', text: 'Mais visibilidade para o associado.', icon: Megaphone },
 ]
 
 export const profiles = [
