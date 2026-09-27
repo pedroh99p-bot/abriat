@@ -57,7 +57,7 @@ export function Quiz() {
         <a className="button button--primary button--full" href={resultUrl} target="_blank" rel="noreferrer" onClick={() => track('whatsapp_click', { form_type: 'initial_affiliation' })}>
           Revisar e enviar pelo WhatsApp <ArrowRight aria-hidden="true" size={19} />
         </a>
-        <p className="quiz-shell__privacy"><LockKeyhole aria-hidden="true" size={15} /> Seus dados só serão compartilhados quando você enviar a mensagem pelo WhatsApp.</p>
+        <p className="quiz-shell__privacy"><LockKeyhole aria-hidden="true" size={15} /> Ao abrir o WhatsApp, os dados vão para uma mensagem para você revisar. A equipe ABRIAT só os recebe se você enviar a mensagem.</p>
       </section>
     )
   }
@@ -101,7 +101,8 @@ export function Quiz() {
           </div>
         </div>
       </form>
-      <p className="quiz-shell__privacy"><LockKeyhole aria-hidden="true" size={15} /> Seus dados aparecem apenas na mensagem do WhatsApp, após sua revisão.</p>
+      <p className="quiz-shell__legal">Ao continuar, você declara estar ciente do tratamento dos seus dados conforme a <a href="/politica-de-privacidade">Política de Privacidade</a>.</p>
+      <p className="quiz-shell__privacy"><LockKeyhole aria-hidden="true" size={15} /> Seus dados serão colocados em uma mensagem para você revisar no WhatsApp.</p>
     </section>
   )
 }

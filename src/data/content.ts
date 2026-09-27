@@ -9,15 +9,26 @@ import {
   UsersRound,
 } from 'lucide-react'
 
+const officialWhatsappNumber = '83998858705'
+
 export const siteConfig = {
+  organization: {
+    legalName: 'Associação Brasileira dos Instrutores de Armamento e Tiro - ABRIAT',
+    cnpj: '69.255.061/0001-04',
+    addressLines: ['Avenida Dom Pedro I, nº 361', 'Sala 202, CXPST 22', 'Tambiá', 'João Pessoa - PB', 'CEP 58020-514'],
+    mapsQuery: 'Avenida Dom Pedro I, 361, Tambiá, João Pessoa - PB, CEP 58020-514',
+  },
   assets: {
     favicon: '/favicon.webp',
     logo: '/assets/navbar-abriat.webp',
     footerLogo: '/assets/logo-abriat-footer.webp',
   },
   contacts: {
-    whatsappRaw: '83998858705',
-    whatsappWaMe: '5583998858705',
+    email: 'abriat01@gmail.com',
+    phoneDisplay: '(83) 99885-8705',
+    phoneE164: `+55${officialWhatsappNumber}`,
+    whatsappRaw: officialWhatsappNumber,
+    whatsappWaMe: `55${officialWhatsappNumber}`,
     abriatInstagramUsername: '@abriat.brasil',
     abriatInstagramUrl: 'https://www.instagram.com/abriat.brasil/',
   },
@@ -36,6 +47,7 @@ export const footerNavItems = [
   { label: 'Benefícios', href: '#beneficios' },
   { label: 'Como funciona', href: '#como-funciona' },
   { label: 'Quero ser instrutor', href: '#quero-ser-instrutor' },
+  { label: 'Nossa sede', href: '#localizacao' },
   { label: 'Dúvidas', href: '#faq' },
 ]
 

@@ -4,6 +4,9 @@ import {
   Building2,
   ChevronDown,
   ClipboardList,
+  MapPin,
+  Mail,
+  Phone,
   Clock3,
   FileCheck2,
   GraduationCap,
@@ -174,6 +177,11 @@ export function WhoWeAreSection() {
     setTopicsOpen(false)
     window.requestAnimationFrame(() => contactButtonRef.current?.focus())
   }
+  useEffect(() => {
+    const open = () => setTopicsOpen(true)
+    window.addEventListener('abriat:open-contact', open)
+    return () => window.removeEventListener('abriat:open-contact', open)
+  }, [])
 
   return (
     <>
@@ -199,11 +207,45 @@ export function WhoWeAreSection() {
               <a className="button button--outline-light" href={siteConfig.contacts.abriatInstagramUrl} target="_blank" rel="noreferrer"><Instagram aria-hidden="true" /> Instagram</a>
               <button className="button button--primary" type="button" ref={contactButtonRef} onClick={() => setTopicsOpen(true)}><MessageCircle aria-hidden="true" /> Falar com a ABRIAT</button>
             </div>
+            <p className="who-we-are__legal">ABRIAT <span aria-hidden="true">•</span> CNPJ {siteConfig.organization.cnpj}</p>
           </div>
         </div>
       </section>
       {topicsOpen ? <TopicSelectorDialog onClose={closeTopics} /> : null}
     </>
+  )
+}
+
+export function LocationSection() {
+  const [mapEnabled, setMapEnabled] = useState(false)
+  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(siteConfig.organization.mapsQuery)}`
+  return (
+    <section className="location-section" id="localizacao" aria-labelledby="location-title">
+      <div className="container">
+        <header className="location-section__heading">
+          <p className="eyebrow"><span aria-hidden="true" />Nossa sede</p>
+          <h2 id="location-title">ABRIAT em <em>João Pessoa.</em></h2>
+          <p>Conheça nosso endereço institucional e fale diretamente com a equipe.</p>
+        </header>
+        <div className="location-section__layout">
+          <div className="location-section__details">
+            <div className="location-section__address"><MapPin aria-hidden="true"/><div><h3>Endereço institucional</h3><address>{siteConfig.organization.addressLines.map((line) => <span key={line}>{line}</span>)}</address></div></div>
+            <a className="location-section__contact" href={`mailto:${siteConfig.contacts.email}`}><Mail aria-hidden="true"/><span><small>E-mail</small>{siteConfig.contacts.email}</span></a>
+            <a className="location-section__contact" href={`tel:${siteConfig.contacts.phoneE164}`}><Phone aria-hidden="true"/><span><small>Telefone</small>{siteConfig.contacts.phoneDisplay}</span></a>
+            <div className="location-section__actions">
+              <button className="button button--primary" type="button" onClick={() => window.dispatchEvent(new Event('abriat:open-contact'))}><MessageCircle aria-hidden="true"/>Falar com a ABRIAT</button>
+              <a className="button button--dark" href={mapsUrl} target="_blank" rel="noreferrer">Abrir no mapa <ArrowRight aria-hidden="true"/></a>
+              <a className="location-section__email-link" href={`mailto:${siteConfig.contacts.email}`}>Enviar e-mail</a>
+            </div>
+          </div>
+          {mapEnabled ? (
+            <iframe className="location-section__map" title="Mapa da sede da ABRIAT em João Pessoa" loading="lazy" src={`https://maps.google.com/maps?q=${encodeURIComponent(siteConfig.organization.mapsQuery)}&output=embed`} referrerPolicy="strict-origin-when-cross-origin" />
+          ) : (
+            <div className="location-section__map-placeholder"><MapPin aria-hidden="true"/><p>O mapa é fornecido pelo Google Maps e só carrega quando você escolhe esta opção.</p><button className="button button--dark" type="button" onClick={() => setMapEnabled(true)}>Carregar mapa do Google Maps</button></div>
+          )}
+        </div>
+      </div>
+    </section>
   )
 }
 

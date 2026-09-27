@@ -408,6 +408,8 @@ button:disabled { cursor: not-allowed; opacity: .55; }
 .text-roller { position: relative; z-index: 2; overflow: hidden; padding: 17px 0; border-radius: var(--section-radius) var(--section-radius) 0 0; }
 .text-roller--dark { background: var(--black); color: #fff; }
 .text-roller--light { background: #f1f1ef; color: var(--ink); }
+.text-roller--brand { padding-block: 13px; background: var(--red); color: #fff; }
+.text-roller--brand .text-roller__track i { color: rgba(255,255,255,.7); }
 .text-roller__track { width: max-content; display: flex; animation: rollerMove 38s linear infinite; will-change: transform; }
 .text-roller__track > span { flex: 0 0 auto; padding-left: 1rem; font-family: var(--display); font-size: 1rem; font-weight: 700; letter-spacing: .14em; white-space: nowrap; }
 .text-roller__phrase { display: inline; }
@@ -1042,6 +1044,49 @@ html { background: #000; }
 .who-we-are__actions { display: flex; gap: 10px; }
 .who-we-are__actions .button { min-width: 166px; min-height: 54px; }
 .who-we-are__actions svg { width: 19px; height: 19px; flex: 0 0 auto; }
+.who-we-are__legal { margin: 4px 0 0; color: rgba(255,255,255,.78); font-size: .78rem; letter-spacing: .04em; }
+.who-we-are__legal span { padding-inline: 5px; color: var(--red); }
+
+.location-section { padding-block: clamp(64px, 8vw, 104px); background: #f4f4f2; }
+.location-section__heading { margin-bottom: 30px; }
+.location-section__heading h2 { margin: 0 0 14px; font-family: var(--display); font-size: clamp(2.5rem, 6vw, 4.7rem); font-weight: 850; line-height: .98; text-transform: uppercase; }
+.location-section__heading h2 em { color: var(--red); font-style: normal; }
+.location-section__heading > p:last-child { max-width: 570px; margin: 0; color: var(--muted); line-height: 1.6; }
+.location-section__layout { display: grid; gap: 24px; }
+.location-section__details { display: grid; gap: 16px; align-content: start; }
+.location-section__address, .location-section__contact { display: flex; align-items: flex-start; gap: 14px; }
+.location-section__address > svg, .location-section__contact > svg { width: 22px; height: 22px; color: var(--red); }
+.location-section__address h3 { margin: 0 0 8px; font-size: 1rem; }
+.location-section__address address { display: grid; color: #4e4e4e; font-size: .96rem; font-style: normal; line-height: 1.7; }
+.location-section__contact { align-items: center; width: fit-content; text-decoration: none; }
+.location-section__contact span { display: grid; gap: 3px; font-weight: 650; }
+.location-section__contact small { color: #666; font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; }
+.location-section__actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+.location-section__actions .button { min-height: 50px; padding-inline: 15px; font-size: .86rem; }
+.location-section__email-link { align-self: center; padding: 10px; color: #454545; font-weight: 650; text-underline-offset: 4px; }
+.location-section__map { width: 100%; min-height: 300px; aspect-ratio: 4 / 3; border: 0; border-radius: 14px; background: #e4e4e2; }
+.location-section__map-placeholder { min-height: 300px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 14px; padding: 26px; border: 1px solid #dededb; border-radius: 14px; background: linear-gradient(140deg, #e9e9e6, #f8f8f6); }
+.location-section__map-placeholder > svg { width: 30px; height: 30px; color: var(--red); }
+.location-section__map-placeholder p { max-width: 350px; margin: 0; color: #505050; line-height: 1.5; }
+.quiz-shell__legal { margin: 14px 0 0; color: #555; font-size: .78rem; line-height: 1.5; }
+.quiz-shell__legal a { color: #8d000a; font-weight: 700; text-underline-offset: 3px; }
+.footer__institution strong { color: #fff; font-size: .8rem; line-height: 1.45; }
+.footer__institution address { display: grid; font-size: .8rem; font-style: normal; line-height: 1.45; }
+.footer .footer__institution > a { display: flex; gap: 8px; align-items: center; }
+.legal-page { min-height: 100vh; display: flex; flex-direction: column; background: #f7f7f5; }
+.legal-page__top { width: min(calc(100% - 2rem), 920px); display: flex; justify-content: space-between; align-items: center; gap: 16px; margin: 0 auto; padding: 22px 0; border-bottom: 1px solid var(--line); }
+.legal-page__top .brand { width: 170px; }
+.legal-page__top > a { display: inline-flex; align-items: center; gap: 7px; font-size: .86rem; font-weight: 700; text-decoration: none; }
+.legal-page__article { width: min(calc(100% - 2rem), 800px); flex: 1; margin: 0 auto; padding: clamp(42px, 7vw, 80px) 0; }
+.legal-page__article > .eyebrow { margin-bottom: 15px; }
+.legal-page__article h1 { margin-bottom: 10px; font-family: var(--display); font-size: clamp(2.4rem, 7vw, 4.2rem); line-height: 1; text-transform: uppercase; }
+.legal-page__updated { margin-bottom: 38px; color: #686868; font-size: .86rem; }
+.legal-page__article section { margin-top: 26px; }
+.legal-page__article section h2 { margin-bottom: 8px; font-size: 1.08rem; }
+.legal-page__article section p { margin: 0; color: #454545; line-height: 1.75; }
+.legal-page__article a { color: #9c0010; text-underline-offset: 3px; }
+.legal-page__contact { margin-top: 36px; padding-top: 20px; border-top: 1px solid var(--line); line-height: 1.6; }
+.legal-page__footer { padding: 20px 1rem; background: #000; color: rgba(255,255,255,.7); text-align: center; font-size: .8rem; }
 
 /* Secondary instructor pathway */
 .future-instructor {
@@ -1140,6 +1185,13 @@ html { background: #000; }
   .topic-selector__backdrop { align-items: end; padding: 0; background: rgba(0,0,0,.68); }
   .topic-selector { width: 100%; max-height: min(84dvh, 720px); overflow-y: auto; padding: 25px 20px max(24px, env(safe-area-inset-bottom)); border-radius: 20px 20px 0 0; }
   .assistant { right: max(12px, env(safe-area-inset-right)); bottom: calc(16px + env(safe-area-inset-bottom)); }
+}
+
+@media (min-width: 800px) {
+  .location-section__heading { margin-bottom: 40px; }
+  .location-section__layout { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); align-items: stretch; gap: clamp(30px, 5vw, 70px); }
+  .location-section__map { min-height: 420px; height: 100%; aspect-ratio: auto; }
+  .location-section__map-placeholder { min-height: 420px; }
 }
 
 @media (max-width: 359px) {

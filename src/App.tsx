@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react'
 import { Assistant } from './components/Assistant'
-import { BenefitsSection, CredentialSection, FaqSection, FinalCta, FutureInstructorSection, ProcessSection, WhoWeAreSection, WhySection } from './components/Sections'
+import { BenefitsSection, CredentialSection, FaqSection, FinalCta, FutureInstructorSection, LocationSection, ProcessSection, WhoWeAreSection, WhySection } from './components/Sections'
 import { Footer } from './components/Footer'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
 import { Quiz } from './components/Quiz'
 import { siteConfig } from './data/content'
 import { track } from './lib/analytics'
+import { LegalPage } from './components/LegalPage'
 
 export default function App() {
-  useEffect(() => { track('page_view', { page_type: 'landing_page', page_name: 'abriat' }) }, [])
+  const currentPath = window.location.pathname.replace(/\/$/, '')
+  useEffect(() => { track('page_view', { page_type: currentPath ? 'legal_page' : 'landing_page', page_name: currentPath || 'abriat' }) }, [currentPath])
 
   useEffect(() => {
     const sections = document.querySelectorAll<HTMLElement>('.section, .who-we-are, .future-instructor, .final-cta, .footer')
@@ -34,10 +36,13 @@ export default function App() {
     return () => observer.disconnect()
   }, [])
 
+  if (currentPath === '/politica-de-privacidade' || currentPath === '/termos-de-uso') return <LegalPage type={currentPath === '/politica-de-privacidade' ? 'privacy' : 'terms'} />
+
   return (
     <>
       <SitePreloader />
       <Header />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ '@context': 'https://schema.org', '@type': 'Organization', name: siteConfig.organization.legalName, taxID: siteConfig.organization.cnpj, email: siteConfig.contacts.email, telephone: siteConfig.contacts.phoneE164, address: { '@type': 'PostalAddress', streetAddress: 'Avenida Dom Pedro I, nº 361, Sala 202, CXPST 22, Tambiá', addressLocality: 'João Pessoa', addressRegion: 'PB', postalCode: '58020-514', addressCountry: 'BR' } }) }} />
       <main id="conteudo">
         <Hero />
         <section className="membership-stage" id="filiacao" aria-labelledby="membership-heading">
@@ -56,9 +61,11 @@ export default function App() {
         <BenefitsSection />
         <CredentialSection />
         <WhoWeAreSection />
+        <TextRoller variant="brand" text="REPRESENTAR • CONECTAR • DESENVOLVER • VALORIZAR • ABRIAT" />
         <FutureInstructorSection />
         <TextRoller variant="light" text="CONHECIMENTO • DISCIPLINA • INSTRUÇÃO • RESPONSABILIDADE" />
         <ProcessSection />
+        <LocationSection />
         <FaqSection />
         <FinalCta />
       </main>
@@ -107,12 +114,13 @@ function SitePreloader() {
   )
 }
 
-function TextRoller({ variant, text }: { variant: 'dark' | 'light'; text: string }) {
+function TextRoller({ variant, text }: { variant: 'dark' | 'light' | 'brand'; text: string }) {
   const phrases = text.split(' • ')
   const group = (copy: number) => phrases.map((phrase, index) => <span className="text-roller__phrase" key={`${copy}-${index}`}>{phrase}<i>•</i></span>)
   return (
-    <div className={`text-roller text-roller--${variant}`} aria-hidden="true">
-      <div className="text-roller__track">
+    <div className={`text-roller text-roller--${variant}`}>
+      <span className="sr-only">{phrases.join(', ')}.</span>
+      <div className="text-roller__track" aria-hidden="true">
         {[0, 1].map((copy) => <span className="text-roller__group" key={copy}>{group(copy)}</span>)}
       </div>
     </div>
