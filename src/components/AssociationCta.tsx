@@ -12,11 +12,11 @@ export function AssociationCta({ children, source, className = '', tabIndex }: A
   return (
     <a
       className={`button button--primary ${className}`}
-      href="#quiz"
+      href="#filiacao"
       tabIndex={tabIndex}
       onClick={() => {
-        window.dispatchEvent(new CustomEvent('abriat:quiz-interest', { detail: 'association' }))
-        track('hero_slide_click', { cta_context: source, destination: 'quiz' })
+        window.setTimeout(() => document.getElementById('membership-heading')?.focus({ preventScroll: true }), 450)
+        track('hero_slide_click', { cta_context: source, destination: 'filiacao' })
       }}
     >
       <span>{children}</span>

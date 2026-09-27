@@ -1,7 +1,7 @@
 # Fluxo de conversão
 
-`tráfego → hero → quiz etapa 1 → quiz etapa 2 → confirmação local → integração futura com atendimento`
+`tráfego → hero → dados iniciais de filiação → mensagem pré-preenchida no WhatsApp → revisão e envio pelo usuário`
 
-Todos os CTAs de associação usam `#quiz`. CTAs de conteúdo apontam para a seção correspondente. A confirmação atual prova o fluxo de interface, mas `submitInterest()` retorna `pending-integration`: nenhum dado é enviado a servidor.
+Todos os CTAs de associação apontam para `#filiacao`; CTAs de conteúdo apontam para a seção correspondente. A etapa inicial solicita nome, WhatsApp, e-mail, estado e cidade. `submitInterest()` apenas prepara uma mensagem com esses dados no link oficial do WhatsApp: nada é enviado ao servidor e a pessoa revisa e envia a mensagem manualmente.
 
-O Assistente ABRIAT encaminha para quiz, benefícios ou perfis e declara a ausência do canal direto. O escopo exclui orientação técnica sobre armamento.
+O Assistente ABRIAT encaminha para filiação, benefícios ou perfis. O escopo exclui orientação técnica sobre armamento.

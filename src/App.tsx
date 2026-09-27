@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { ChevronDown } from 'lucide-react'
 import { Assistant } from './components/Assistant'
 import { BenefitsSection, FaqSection, FinalCta, FounderSection, ProcessSection, ProfilesSection, WhySection } from './components/Sections'
 import { Footer } from './components/Footer'
@@ -16,6 +15,7 @@ export default function App() {
     const sections = document.querySelectorAll<HTMLElement>('.section, .founder, .final-cta, .footer')
     const cards = document.querySelectorAll<HTMLElement>('.pillar-card, .benefit-card, .timeline li')
     sections.forEach((section) => section.setAttribute('data-reveal', ''))
+    document.querySelector('.membership-stage__inner')?.setAttribute('data-reveal', '')
     cards.forEach((card, index) => {
       card.setAttribute('data-reveal-card', '')
       card.style.setProperty('--reveal-delay', `${(index % 5) * 70}ms`)
@@ -29,7 +29,7 @@ export default function App() {
           observer.unobserve(entry.target)
         }
       })
-    }, { threshold: 0.08 })
+    }, { threshold: 0.01, rootMargin: '0px 0px 100px 0px' })
     document.querySelectorAll<HTMLElement>('[data-reveal], [data-reveal-card]').forEach((item) => observer.observe(item))
     return () => observer.disconnect()
   }, [])
@@ -40,13 +40,17 @@ export default function App() {
       <Header />
       <main id="conteudo">
         <Hero />
-        <div className="quiz-stage">
-          <a className="hero__scroll-cue" href="#quiz">
-            <span>Continue para saber como participar</span>
-            <i aria-hidden="true"><ChevronDown /><ChevronDown /></i>
-          </a>
-          <div className="container"><Quiz /></div>
-        </div>
+        <section className="membership-stage" id="filiacao" aria-labelledby="membership-heading">
+          <div className="container membership-stage__inner">
+            <header className="membership-stage__intro">
+              <p className="eyebrow"><span aria-hidden="true" />Filiação ABRIAT</p>
+              <h2 id="membership-heading" tabIndex={-1}>Comece sua <em>filiação</em></h2>
+              <p>Envie seus dados iniciais para começar seu processo de filiação à ABRIAT.</p>
+              <span className="membership-stage__step">Etapa inicial <i aria-hidden="true" /></span>
+            </header>
+            <Quiz />
+          </div>
+        </section>
         <TextRoller variant="dark" text="REPRESENTATIVIDADE • ESTRUTURA • CONEXÃO • VALORIZAÇÃO • ABRIAT" />
         <WhySection />
         <BenefitsSection />

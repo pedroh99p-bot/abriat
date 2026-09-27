@@ -69,7 +69,7 @@ export function BenefitsSection() {
 
 function CredentialMockup() {
   return (
-    <div className="credential" aria-label="Representação ilustrativa de credencial ABRIAT">
+    <div className="credential" id="carteirinha" aria-label="Representação ilustrativa de credencial ABRIAT">
       <div className="credential__brand"><Target aria-hidden="true" /><strong>ABRIAT</strong></div>
       <span className="credential__label">CREDENCIAL ILUSTRATIVA</span>
       <div className="credential__body">
@@ -113,8 +113,8 @@ function FounderAuthority() {
   useEffect(() => {
     const block = blockRef.current
     if (!block) return
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (reducedMotion) {
+    const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
+    if (reducedMotion || !('IntersectionObserver' in window)) {
       setCount(533)
       return
     }

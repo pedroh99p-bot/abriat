@@ -5,7 +5,7 @@ describe('dataLayer', () => {
   beforeEach(() => { window.dataLayer = [] })
 
   it('registra evento com parâmetros sem incluir dados pessoais', () => {
-    track('hero_slide_click', { slide_index: 1, destination: '#quiz' })
-    expect(getDataLayer()).toEqual([{ event: 'hero_slide_click', slide_index: 1, destination: '#quiz' }])
+    track('hero_slide_click', { slide_index: 1, destination: '#filiacao' })
+    expect(getDataLayer()).toEqual([{ event: 'hero_slide_click', slide_index: 1, destination: '#filiacao' }])
   })
 })

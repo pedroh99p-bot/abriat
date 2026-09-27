@@ -3,11 +3,11 @@ import { useEffect, useRef, useState } from 'react'
 import { track } from '../lib/analytics'
 
 const actions = [
-  { label: 'Como me associar?', answer: 'Comece preenchendo o formulário de interesse. Depois, a equipe responsável poderá orientar sobre critérios, documentos e próximos passos.', target: '#quiz', interestType: 'association' as const },
-  { label: 'Quero me tornar instrutor', answer: 'A ABRIAT pode orientar seu próximo passo e, quando aplicável, direcionar você a um estande ou parceiro para receber as orientações necessárias sobre o processo.', target: '#quiz', interestType: 'become_instructor' as const },
+  { label: 'Como me associar?', answer: 'Comece preenchendo seus dados iniciais de filiação. A equipe responsável poderá orientar sobre critérios, documentos e próximos passos.', target: '#filiacao' },
+  { label: 'Quero me tornar instrutor', answer: 'A ABRIAT pode orientar seu próximo passo e, quando aplicável, direcionar você a um estande ou parceiro para receber as orientações necessárias sobre o processo.', target: '#filiacao' },
   { label: 'Quem pode fazer parte?', answer: 'Instrutores, profissionais autônomos e pessoas que atuam em clubes, estandes, escolas ou centros de treinamento podem demonstrar interesse.', target: '#perfis' },
   { label: 'Quais são os benefícios?', answer: 'A proposta reúne representatividade, rede profissional, visibilidade, conteúdo e estrutura para futuras parcerias.', target: '#beneficios' },
-  { label: 'Quero falar com a equipe', answer: 'Preencha o formulário para receber orientação da equipe ABRIAT pelo WhatsApp.', target: '#quiz', interestType: 'association' as const },
+  { label: 'Quero falar com a equipe', answer: 'Preencha seus dados iniciais e revise a mensagem antes de enviar pelo WhatsApp à equipe ABRIAT.', target: '#filiacao' },
 ]
 
 export function Assistant() {
@@ -61,10 +61,8 @@ export function Assistant() {
   }
 
   const go = () => {
-    if (selected.target === '#quiz' && selected.interestType) {
-      window.dispatchEvent(new CustomEvent('abriat:quiz-interest', { detail: selected.interestType }))
-    }
-    document.querySelector(selected.target)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    document.querySelector(selected.target)?.scrollIntoView({ behavior: window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start' })
+    if (selected.target === '#filiacao') window.setTimeout(() => document.getElementById('membership-heading')?.focus({ preventScroll: true }), 450)
     setOpen(false)
   }
 

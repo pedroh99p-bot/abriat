@@ -1,10 +1,10 @@
 # Project brief
 
-Landing page institucional de captação para profissionais interessados em conhecer ou ingressar na ABRIAT.
+Landing page institucional para profissionais interessados em conhecer ou iniciar sua filiação à ABRIAT.
 
 ## Público e objetivo
 
-O público inclui instrutores ativos, profissionais autônomos e pessoas ligadas a clubes, estandes, escolas ou centros de treinamento. A ação principal é concluir o quiz progressivo de interesse.
+O público inclui instrutores ativos, profissionais autônomos e pessoas ligadas a clubes, estandes, escolas ou centros de treinamento. A ação principal é enviar os dados iniciais de filiação e revisar a mensagem destinada à equipe.
 
 ## Linguagem
 
@@ -14,7 +14,7 @@ Institucional, direta, técnica e responsável. A página não promete admissão
 
 1. Header e navegação responsiva.
 2. Hero com três banners e destinos distintos.
-3. Quiz progressivo de duas etapas.
+3. Início da filiação com formulário inicial de cinco campos.
 4. Propósito e quatro pilares.
 5. Benefícios em carrossel `scroll-snap` no mobile.
 6. Fundador, com imagem temporária identificada como ilustrativa.

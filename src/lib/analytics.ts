@@ -3,7 +3,6 @@ export type AnalyticsEvent =
   | 'hero_slide_view'
   | 'hero_slide_click'
   | 'quiz_start'
-  | 'quiz_step_complete'
   | 'quiz_submit'
   | 'whatsapp_click'
   | 'founder_instagram_click'

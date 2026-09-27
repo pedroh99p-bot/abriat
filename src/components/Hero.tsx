@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, Pause, Play } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ChevronDown, Pause, Play } from 'lucide-react'
 import { type KeyboardEvent, type TouchEvent, useEffect, useRef, useState } from 'react'
 import { heroSlides } from '../data/content'
 import { track } from '../lib/analytics'
@@ -10,6 +10,7 @@ export function Hero() {
   const announced = useRef(new Set<number>())
   const touchStartX = useRef<number | null>(null)
   const resumeTimer = useRef<number | undefined>(undefined)
+  const heroRef = useRef<HTMLElement>(null)
   const slide = heroSlides[current]
   const isPaused = manualPause ?? paused
 
@@ -19,6 +20,16 @@ export function Hero() {
       announced.current.add(current)
     }
   }, [current, slide.eyebrow])
+
+  useEffect(() => {
+    const warmImages = heroSlides.slice(1).map((item) => {
+      const image = new Image()
+      image.decoding = 'async'
+      image.src = item.image
+      return image
+    })
+    return () => warmImages.forEach((image) => { image.src = '' })
+  }, [])
 
   useEffect(() => {
     if (isPaused || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return
@@ -32,6 +43,29 @@ export function Hero() {
     return () => {
       document.removeEventListener('visibilitychange', syncVisibility)
       window.clearTimeout(resumeTimer.current)
+    }
+  }, [])
+
+  useEffect(() => {
+    const hero = heroRef.current
+    if (!hero || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return
+    let frame = 0
+    const updateScrollMotion = () => {
+      cancelAnimationFrame(frame)
+      frame = requestAnimationFrame(() => {
+        const rect = hero.getBoundingClientRect()
+        const progress = Math.max(0, Math.min(1, -rect.top / Math.max(rect.height, 1)))
+        hero.style.setProperty('--hero-media-scale', String(1 + progress * 0.025))
+        hero.style.setProperty('--hero-shade-opacity', String(1 + progress * 0.08))
+      })
+    }
+    updateScrollMotion()
+    window.addEventListener('scroll', updateScrollMotion, { passive: true })
+    window.addEventListener('resize', updateScrollMotion)
+    return () => {
+      cancelAnimationFrame(frame)
+      window.removeEventListener('scroll', updateScrollMotion)
+      window.removeEventListener('resize', updateScrollMotion)
     }
   }, [])
 
@@ -55,9 +89,14 @@ export function Hero() {
     event.currentTarget.parentElement?.querySelectorAll('button')[nextIndex]?.focus()
   }
 
+  const focusMembershipHeading = () => {
+    window.setTimeout(() => document.getElementById('membership-heading')?.focus({ preventScroll: true }), 450)
+  }
+
   return (
     <section
-      className={`hero ${isPaused ? 'hero--paused' : ''} ${slide.crop === 'leadership' ? 'hero--leadership' : ''}`}
+      ref={heroRef}
+      className={`hero hero--${slide.crop} ${isPaused ? 'hero--paused' : ''}`}
       aria-roledescription="carrossel"
       aria-label="Destaques ABRIAT"
       onTouchStart={handleTouchStart}
@@ -67,28 +106,34 @@ export function Hero() {
       onFocusCapture={() => setPaused(true)}
       onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setPaused(false) }}
     >
-      <div className="hero__media-stack">
+      <div className="hero__media-stack" aria-hidden="true">
         {heroSlides.map((item, index) => (
-          <div className={`hero__media hero__media--${item.crop} ${index === current ? 'hero__media--active' : ''}`} key={item.image} aria-hidden={index !== current}>
-            <img src={item.image} alt={item.alt} width="1680" height="944" fetchPriority={index === current ? 'high' : 'low'} />
+          <div className={`hero__media hero__media--${item.crop} ${index === current ? 'hero__media--active' : ''}`} key={item.image}>
+            <img src={item.image} alt="" width="1672" height="941" loading={index === 0 ? 'eager' : 'lazy'} decoding="async" />
           </div>
         ))}
-        <div className="hero__shade" aria-hidden="true" />
+        <div className="hero__shade" />
       </div>
-      <div className="hero__target" aria-hidden="true"><i /><i /><i /><b /></div>
       <div className="container hero__content" aria-live="polite" aria-atomic="true">
         <div className="hero__copy" key={current}>
           <p className="eyebrow eyebrow--light"><span aria-hidden="true" />{slide.eyebrow}</p>
           <h1>{slide.title}<strong>{slide.highlight}</strong></h1>
           <p className="hero__description">{slide.description}</p>
           <a
-            className="button button--primary"
+            className="button button--primary hero__cta"
             href={slide.href}
-            onClick={() => track('hero_slide_click', { slide_index: current + 1, destination: slide.href })}
+            onClick={() => {
+              track('hero_slide_click', { slide_index: current + 1, destination: slide.href })
+              if (slide.href === '#filiacao') focusMembershipHeading()
+            }}
           >
             <span>{slide.cta}</span><ArrowRight aria-hidden="true" size={19} />
           </a>
         </div>
+        <a className="hero__scroll-cue" href="#filiacao" onClick={focusMembershipHeading}>
+          <span>Continue para começar sua filiação</span>
+          <i aria-hidden="true"><ChevronDown /><ChevronDown /></i>
+        </a>
         <div className="hero__controls">
           <div className="hero__counter">
             <button type="button" aria-label="Banner anterior" onClick={() => goTo(current - 1)}><ArrowLeft aria-hidden="true" /></button>

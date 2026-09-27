@@ -729,3 +729,140 @@ html { background: #000; }
 @media (prefers-reduced-motion: reduce) {
   .hero__scroll-cue i { animation: none; }
 }
+
+/* Membership hero conversion pass */
+.site-header__inner { height: 72px; gap: 12px; }
+.brand--compact { width: min(270px, calc(100vw - 110px)); flex: 0 1 auto; }
+.brand--compact img { width: 100%; height: auto; object-fit: contain; }
+.hero { height: auto; min-height: calc(100vh - 72px); min-height: calc(100svh - 72px); }
+.hero__media-stack { transform: scale(var(--hero-media-scale, 1)); transform-origin: center; animation: heroBackdropIn .7s ease both; }
+.hero__media { opacity: 0; transition: opacity 620ms cubic-bezier(.22,.68,.28,1); }
+.hero__media--active { opacity: 1; }
+.hero__media img { filter: none; transform: scale(1.025); transition: transform 680ms cubic-bezier(.2,.65,.25,1); }
+.hero__media--active img { transform: scale(1); }
+.hero__shade { opacity: var(--hero-shade-opacity, 1); background: linear-gradient(90deg, rgba(4,4,4,.9) 0%, rgba(4,4,4,.73) 32%, rgba(4,4,4,.18) 62%, transparent 84%), linear-gradient(0deg, rgba(4,4,4,.4), transparent 35%); }
+.hero__media--filiacao img { object-position: 68% center; }
+.hero__media--beneficios img { object-position: 68% center; }
+.hero__media--carteirinha img { object-position: 72% center; }
+.hero__content { height: 100%; min-height: inherit; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; grid-template-areas: 'controls' 'copy' 'cue'; align-items: center; justify-content: stretch; gap: 0; padding-block: 24px 112px; }
+.hero__controls { position: static; grid-area: controls; justify-self: end; display: grid; justify-items: center; gap: 0; width: max-content; margin: 0; transform: none; animation: none; }
+.hero__counter { display: flex; align-items: center; gap: 6px; }
+.hero__controls .hero__counter > button { width: 40px; height: 40px; border-color: rgba(255,255,255,.2); background: rgba(8,8,8,.22); }
+.hero__controls .hero__counter > button svg { width: 16px; height: 16px; }
+.hero__dots { gap: 2px; }
+.hero__dots button { position: relative; width: 34px; min-width: 34px; height: 40px; padding: 0 5px 5px; border-bottom-width: 1px; font-size: .72rem; }
+.hero__dots button i { bottom: -1px; height: 2px; }
+.hero__pause, .hero__controls > .hero__pause { width: auto; height: 26px; min-height: 26px; margin-top: 2px; padding-inline: 9px; border-color: rgba(255,255,255,.13); background: rgba(0,0,0,.12); color: rgba(255,255,255,.62); opacity: .7; }
+.hero__copy { grid-area: copy; width: min(52%, 600px); max-width: 600px; min-height: 0; align-self: center; display: flex; flex-direction: column; justify-content: center; }
+.hero__copy .eyebrow { min-height: 0; margin-bottom: clamp(14px, 2vw, 22px); font-size: .68rem; letter-spacing: .18em; }
+.hero h1 { max-width: 620px; min-height: 0; margin-bottom: 18px; font-size: clamp(3rem, 5.3vw, 4.8rem); line-height: .96; letter-spacing: -.035em; }
+.hero__description { max-width: 450px; min-height: 0; margin-bottom: 24px; color: rgba(255,255,255,.84); font-size: clamp(.94rem, 1.4vw, 1.04rem); line-height: 1.58; }
+.hero__copy .hero__cta { width: min(256px, 100%); min-width: 0; min-height: 54px; justify-content: space-between; gap: 12px; align-self: flex-start; padding-inline: 18px; border-radius: 5px; font-size: .88rem; text-align: left; }
+.hero__scroll-cue { grid-area: cue; position: static; justify-self: center; display: grid; justify-items: center; gap: 4px; width: fit-content; margin: 0; color: rgba(255,255,255,.72); font-size: .62rem; font-weight: 700; letter-spacing: .12em; line-height: 1.35; text-align: center; text-decoration: none; text-transform: uppercase; white-space: normal; transform: none; }
+.hero__scroll-cue i { display: grid; justify-items: center; gap: 0; width: auto; height: auto; border: 0; border-radius: 0; background: transparent; color: #fff; animation: scrollCueSoft 2.2s ease-in-out infinite; }
+.hero__scroll-cue i svg { width: 18px; height: 18px; margin-block: -4px; stroke-width: 2; }
+.hero__scroll-cue i svg:first-child { opacity: .48; }
+.hero__scroll-cue i svg:last-child { opacity: .86; }
+.membership-stage { position: relative; z-index: 5; margin-top: -64px; padding: 0 0 clamp(62px, 8vw, 100px); border-radius: 32px 32px 0 0; background: #fff; box-shadow: 0 -18px 46px rgba(0,0,0,.1); scroll-margin-top: 92px; }
+.membership-stage__inner { display: grid; grid-template-columns: minmax(0, .84fr) minmax(0, 1fr); align-items: start; gap: clamp(38px, 7vw, 96px); padding-top: clamp(42px, 7vw, 78px); }
+.membership-stage__intro { max-width: 475px; }
+.membership-stage__intro .eyebrow { margin-bottom: 18px; }
+.membership-stage__intro h2 { max-width: 440px; margin-bottom: 16px; font-family: var(--display); font-size: clamp(3rem, 5vw, 4.6rem); font-weight: 850; letter-spacing: -.04em; line-height: .95; text-transform: uppercase; }
+.membership-stage__intro h2 em { display: block; color: var(--red); font-style: normal; }
+.membership-stage__intro h2:focus { outline: none; }
+.membership-stage__intro > p:not(.eyebrow) { max-width: 400px; margin-bottom: 24px; color: var(--muted); font-size: 1.02rem; line-height: 1.65; }
+.membership-stage__step { display: inline-flex; align-items: center; gap: 10px; color: #636363; font-size: .72rem; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; }
+.membership-stage__step i { width: 24px; height: 1px; background: var(--red); }
+.quiz-shell { width: 100%; max-width: 590px; margin: 0; padding: clamp(22px, 3vw, 34px); border: 1px solid rgba(0,0,0,.08); border-radius: 18px; background: #fff; box-shadow: 0 18px 52px rgba(0,0,0,.09); scroll-margin-top: 112px; }
+.quiz-shell__meta { margin: 0 0 23px; padding-bottom: 14px; border-bottom: 1px solid #ececea; font-size: .67rem; letter-spacing: .12em; }
+.quiz-shell__meta span { color: #777; }
+.quiz-shell__meta b { color: var(--red); }
+.quiz-shell .form-grid { gap: 17px 13px; }
+.quiz-shell .field { gap: 8px; font-size: .78rem; letter-spacing: .015em; }
+.quiz-shell .field input, .quiz-shell .field select { height: 50px; border-radius: 7px; background: #fafaf9; }
+.quiz-shell .field input:focus, .quiz-shell .field select:focus { background: #fff; }
+.quiz-actions--single { grid-column: 1 / -1; margin-top: 3px; }
+.quiz-actions--single .button { min-height: 54px; justify-content: space-between; padding-inline: 17px; border-radius: 5px; font-size: .87rem; }
+.quiz-shell__privacy { display: flex; align-items: flex-start; gap: 8px; margin: 16px 0 0; color: #6f6f6f; font-size: .7rem; line-height: 1.5; }
+.quiz-shell__privacy svg { margin-top: 1px; color: #777; }
+.quiz-shell--success { display: grid; justify-items: start; align-content: center; min-height: 380px; }
+.quiz-success__icon { width: 48px; height: 48px; display: grid; place-items: center; margin-bottom: 20px; border-radius: 50%; background: #f4f4f2; color: var(--red); }
+.quiz-shell--success .eyebrow { margin-bottom: 12px; font-size: .67rem; }
+.quiz-shell--success h3 { max-width: 420px; margin: 0 0 10px; font-family: var(--display); font-size: clamp(1.8rem, 3vw, 2.4rem); line-height: 1.05; text-transform: uppercase; }
+.quiz-success__copy { max-width: 450px; margin-bottom: 22px; color: var(--muted); font-size: .9rem; line-height: 1.55; }
+.quiz-shell--success .button { min-height: 52px; justify-content: space-between; gap: 12px; padding-inline: 15px; font-size: .84rem; }
+.motion-ready .membership-stage__inner[data-reveal] { transform: translateY(24px); }
+.motion-ready .membership-stage__inner[data-reveal].is-visible { transform: translateY(0); }
+@keyframes heroBackdropIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes scrollCueSoft { 0%,100% { transform: translateY(-1px); opacity: .72; } 50% { transform: translateY(2px); opacity: 1; } }
+
+@media (min-width: 800px) {
+  .site-header__inner { height: 88px; }
+  .brand--compact { width: min(235px, 22vw); }
+  .hero { height: clamp(760px, calc(100svh - 92px), 860px); min-height: 760px; }
+  .hero__content { padding: 28px 0 130px; }
+  .hero__controls { justify-self: end; }
+  .hero__copy { width: min(47%, 590px); }
+  .hero__media--filiacao img { object-position: 68% center; }
+  .hero__media--beneficios img { object-position: 68% center; }
+  .hero__media--carteirinha img { object-position: 73% center; }
+  .membership-stage { margin-top: -104px; border-radius: 36px 36px 0 0; }
+  .membership-stage__inner { padding-top: clamp(46px, 4vw, 62px); }
+}
+
+@media (max-width: 799px) {
+  .site-header__inner { height: 72px; }
+  .brand--compact { width: min(270px, calc(100vw - 110px)); }
+  .hero { min-height: calc(100vh - 72px); min-height: calc(100svh - 72px); }
+  .hero__content { padding: 18px 0 105px; grid-template-rows: auto minmax(0, 1fr) auto; }
+  .hero__controls { justify-self: center; }
+  .hero__counter { gap: 5px; }
+  .hero__controls .hero__counter > button { width: 38px; height: 38px; }
+  .hero__dots button { width: 32px; min-width: 32px; height: 38px; }
+  .hero__copy { width: min(64%, 430px); max-width: 430px; justify-self: start; }
+  .hero__copy .eyebrow { max-width: 100%; font-size: .62rem; letter-spacing: .14em; }
+  .hero h1 { max-width: 100%; margin-bottom: 13px; font-size: clamp(2.2rem, 8.3vw, 3.3rem); line-height: .98; }
+  .hero__description { max-width: 390px; margin-bottom: 18px; font-size: clamp(.88rem, 2.1vw, .98rem); line-height: 1.48; }
+  .hero__copy .hero__cta { width: min(250px, 100%); min-height: 50px; padding-inline: 15px; font-size: .82rem; }
+  .hero__scroll-cue { max-width: 260px; font-size: .58rem; }
+  .hero__media--filiacao img { object-position: 72% center; }
+  .hero__media--beneficios img { object-position: 72% center; }
+  .hero__media--carteirinha img { object-position: 74% center; }
+  .hero__shade { background: linear-gradient(90deg, rgba(3,3,3,.9) 0%, rgba(3,3,3,.76) 34%, rgba(3,3,3,.24) 68%, rgba(3,3,3,.02) 100%), linear-gradient(0deg, rgba(4,4,4,.43) 0%, transparent 30%); }
+  .hero--beneficios .hero__shade, .hero--carteirinha .hero__shade { background: linear-gradient(90deg, rgba(3,3,3,.94) 0%, rgba(3,3,3,.86) 40%, rgba(3,3,3,.7) 64%, rgba(3,3,3,.24) 84%, rgba(3,3,3,.04) 100%), linear-gradient(0deg, rgba(4,4,4,.5) 0%, transparent 36%); }
+  .membership-stage { margin-top: -64px; padding-bottom: 62px; border-radius: 28px 28px 0 0; }
+  .membership-stage__inner { grid-template-columns: 1fr; gap: 25px; padding-top: 39px; }
+  .membership-stage__intro { max-width: 100%; }
+  .membership-stage__intro .eyebrow { margin-bottom: 13px; }
+  .membership-stage__intro h2 { margin-bottom: 10px; font-size: clamp(2.55rem, 9vw, 3.35rem); }
+  .membership-stage__intro > p:not(.eyebrow) { max-width: 520px; margin-bottom: 14px; font-size: .92rem; line-height: 1.5; }
+  .membership-stage__step { font-size: .64rem; }
+  .quiz-shell { max-width: none; padding: 21px 18px; border-radius: 14px; }
+  .quiz-shell .form-grid { grid-template-columns: 1fr 1fr; gap: 15px 11px; }
+  .quiz-shell .field--full { grid-column: 1 / -1; }
+  .quiz-shell__meta { margin-bottom: 18px; padding-bottom: 12px; font-size: .61rem; }
+  .quiz-shell .field { font-size: .74rem; }
+  .quiz-shell .field input, .quiz-shell .field select { height: 48px; padding-inline: 11px; font-size: 16px; }
+  .quiz-actions--single { grid-column: 1 / -1; }
+  .quiz-actions--single .button { min-height: 52px; font-size: .82rem; }
+  .quiz-shell__privacy { font-size: .65rem; }
+}
+
+@media (max-width: 359px) {
+  .brand--compact { width: min(224px, calc(100vw - 104px)); }
+  .hero__content { padding-bottom: 88px; }
+  .hero__copy { width: 80%; }
+  .hero h1 { font-size: 2.05rem; }
+  .hero__description { font-size: .86rem; }
+  .quiz-shell .form-grid { grid-template-columns: 1fr; }
+  .quiz-shell .field--full, .quiz-actions--single { grid-column: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hero__media-stack { transform: none; animation: none; }
+  .hero__media { transition: none; }
+  .hero__media img { transform: none; transition: none; }
+  .hero__scroll-cue i { animation: none; }
+  .motion-ready .membership-stage__inner[data-reveal], .motion-ready .membership-stage__inner[data-reveal].is-visible { opacity: 1; transform: none; transition: none; }
+}
