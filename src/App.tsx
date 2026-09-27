@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Assistant } from './components/Assistant'
-import { BenefitsSection, CredentialSection, FaqSection, FinalCta, FounderSection, ProcessSection, ProfilesSection, WhySection } from './components/Sections'
+import { BenefitsSection, CredentialSection, FaqSection, FinalCta, FutureInstructorSection, ProcessSection, WhoWeAreSection, WhySection } from './components/Sections'
 import { Footer } from './components/Footer'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
@@ -12,8 +12,8 @@ export default function App() {
   useEffect(() => { track('page_view', { page_type: 'landing_page', page_name: 'abriat' }) }, [])
 
   useEffect(() => {
-    const sections = document.querySelectorAll<HTMLElement>('.section, .founder, .final-cta, .footer')
-    const cards = document.querySelectorAll<HTMLElement>('.pillar-card, .benefit-card, .timeline li')
+    const sections = document.querySelectorAll<HTMLElement>('.section, .who-we-are, .future-instructor, .final-cta, .footer')
+    const cards = document.querySelectorAll<HTMLElement>('.pillar-card, .benefit-card, .who-we-are__pillar, .future-instructor__choice, .timeline li')
     sections.forEach((section) => section.setAttribute('data-reveal', ''))
     document.querySelector('.membership-stage__inner')?.setAttribute('data-reveal', '')
     cards.forEach((card, index) => {
@@ -55,10 +55,10 @@ export default function App() {
         <WhySection />
         <BenefitsSection />
         <CredentialSection />
+        <WhoWeAreSection />
+        <FutureInstructorSection />
         <TextRoller variant="light" text="CONHECIMENTO • DISCIPLINA • INSTRUÇÃO • RESPONSABILIDADE" />
-        <FounderSection />
         <ProcessSection />
-        <ProfilesSection />
         <FaqSection />
         <FinalCta />
       </main>

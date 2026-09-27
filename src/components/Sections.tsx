@@ -1,18 +1,26 @@
 import {
   ArrowRight,
-  Check,
+  BadgeCheck,
+  Building2,
   ChevronDown,
+  ClipboardList,
   Clock3,
   FileCheck2,
+  GraduationCap,
   IdCard,
+  Instagram,
+  MessageCircle,
+  Network,
   QrCode,
   Send,
   ShieldCheck,
   Target,
   UsersRound,
+  X,
 } from 'lucide-react'
-import { type KeyboardEvent, useEffect, useRef, useState } from 'react'
-import { benefits, faqs, pillars, profiles, siteConfig } from '../data/content'
+import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
+import { benefits, faqs, pillars, siteConfig } from '../data/content'
 import { track } from '../lib/analytics'
 import { AssociationCta } from './AssociationCta'
 import { SectionHeading } from './SectionHeading'
@@ -144,73 +152,119 @@ export function CredentialSection() {
   )
 }
 
-export function FounderSection() {
+const institutionalPillars = [
+  { icon: UsersRound, title: 'Representar', text: 'a categoria.' },
+  { icon: Network, title: 'Conectar', text: 'instrutores.' },
+  { icon: GraduationCap, title: 'Desenvolver', text: 'profissionais.' },
+  { icon: BadgeCheck, title: 'Valorizar', text: 'a atuação.' },
+]
+
+const contactTopics = [
+  { label: 'Quero me filiar', message: 'Olá! Quero saber como iniciar minha filiação à ABRIAT.' },
+  { label: 'Quero me tornar instrutor', message: 'Olá! Gostaria de receber orientação sobre o caminho para me tornar instrutor.' },
+  { label: 'Documentos da filiação', message: 'Olá! Tenho dúvidas sobre os documentos necessários para a filiação à ABRIAT.' },
+  { label: 'Benefícios e credencial', message: 'Olá! Quero entender melhor os benefícios e a credencial ABRIAT.' },
+  { label: 'Falar com a equipe', message: 'Olá! Gostaria de falar com a equipe da ABRIAT.' },
+]
+
+export function WhoWeAreSection() {
+  const [topicsOpen, setTopicsOpen] = useState(false)
+  const contactButtonRef = useRef<HTMLButtonElement>(null)
+  const closeTopics = () => {
+    setTopicsOpen(false)
+    window.requestAnimationFrame(() => contactButtonRef.current?.focus())
+  }
+
   return (
-    <section className="founder" id="fundador">
-      <div className="founder__visual"><img src={siteConfig.assets.founder} alt="Paulo Dornelas, fundador da ABRIAT" width="1122" height="1402" /></div>
-      <div className="founder__shade" />
-      <div className="container founder__content">
-        <div>
-          <p className="eyebrow eyebrow--light"><span aria-hidden="true" />Conheça o fundador</p>
-          <h2>Paulo <em>Dornelas</em></h2>
-          <p className="founder__alias">Dr das Armas</p>
-          <p className="founder__role">Fundador da ABRIAT</p>
-          <p className="founder__copy">Sua experiência no setor orienta a construção de uma associação conectada às necessidades de quem vive a instrução.</p>
-          <FounderAuthority />
-          <div className="founder__actions">
-            <a className="button button--outline-light" href={siteConfig.contacts.founderInstagramUrl} target="_blank" rel="noreferrer" onClick={() => track('founder_instagram_click', { destination: 'instagram' })}>Instagram {siteConfig.contacts.founderInstagramUsername} <ArrowRight aria-hidden="true" size={19} /></a>
-            <AssociationCta source="founder">Quero fazer parte da ABRIAT</AssociationCta>
+    <>
+      <section className="who-we-are" id="quem-somos" aria-labelledby="who-we-are-title">
+        <div className="container who-we-are__content">
+          <div className="who-we-are__editorial" data-reveal>
+            <p className="eyebrow eyebrow--light"><span aria-hidden="true" />Quem somos</p>
+            <h2 id="who-we-are-title">A voz de quem vive <em>a instrução.</em></h2>
+            <p className="who-we-are__description">A ABRIAT reúne instrutores de armamento e tiro para fortalecer a categoria, ampliar conexões e construir novas oportunidades em todo o Brasil.</p>
+          </div>
+          <div className="who-we-are__pillars" aria-label="O que move a ABRIAT">
+            {institutionalPillars.map(({ icon: Icon, title, text }) => (
+              <article className="who-we-are__pillar" data-reveal-card key={title}>
+                <Icon aria-hidden="true" />
+                <span className="who-we-are__pillar-divider" aria-hidden="true" />
+                <div><h3>{title}</h3><p>{text}</p></div>
+              </article>
+            ))}
+          </div>
+          <div className="who-we-are__social" data-reveal>
+            <div><h3>Acompanhe a ABRIAT</h3><p>{siteConfig.contacts.abriatInstagramUsername}</p></div>
+            <div className="who-we-are__actions">
+              <a className="button button--outline-light" href={siteConfig.contacts.abriatInstagramUrl} target="_blank" rel="noreferrer"><Instagram aria-hidden="true" /> Instagram</a>
+              <button className="button button--primary" type="button" ref={contactButtonRef} onClick={() => setTopicsOpen(true)}><MessageCircle aria-hidden="true" /> Falar com a ABRIAT</button>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+      {topicsOpen ? <TopicSelectorDialog onClose={closeTopics} /> : null}
+    </>
   )
 }
 
-function FounderAuthority() {
-  const [count, setCount] = useState(0)
-  const blockRef = useRef<HTMLDivElement>(null)
-  const started = useRef(false)
+function TopicSelectorDialog({ onClose }: { onClose: () => void }) {
+  const dialogRef = useRef<HTMLDivElement>(null)
+  const firstOptionRef = useRef<HTMLAnchorElement>(null)
 
   useEffect(() => {
-    const block = blockRef.current
-    if (!block) return
-    const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
-    if (reducedMotion || !('IntersectionObserver' in window)) {
-      setCount(533)
-      return
-    }
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    firstOptionRef.current?.focus()
 
-    let frame = 0
-    const observer = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting || started.current) return
-      started.current = true
-      observer.disconnect()
-      const duration = 1500
-      const begin = performance.now()
-      const update = (now: number) => {
-        const progress = Math.min((now - begin) / duration, 1)
-        setCount(Math.round(533 * (1 - (1 - progress) ** 3)))
-        if (progress < 1) frame = requestAnimationFrame(update)
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose()
+        return
       }
-      frame = requestAnimationFrame(update)
-    }, { threshold: 0.35 })
-    observer.observe(block)
-    return () => {
-      observer.disconnect()
-      cancelAnimationFrame(frame)
+      if (event.key !== 'Tab' || !dialogRef.current) return
+      const focusable = Array.from(dialogRef.current.querySelectorAll<HTMLElement>('a[href], button:not(:disabled)'))
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault()
+        last?.focus()
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault()
+        first?.focus()
+      }
     }
-  }, [])
 
-  return (
-    <div className="founder-authority" ref={blockRef} aria-label="Indicadores sobre o fundador e a ABRIAT">
-      <div className="founder-authority__item founder-authority__item--followers">
-        <strong aria-hidden="true">{count}K+</strong><span className="sr-only">533 mil</span>
-        <span>Seguidores</span>
-      </div>
-      <div className="founder-authority__item"><strong>Atuação</strong><span>Nacional</span></div>
-      <div className="founder-authority__item"><strong>Fundador</strong><span>ABRIAT</span></div>
-    </div>
+    document.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.body.style.overflow = previousOverflow
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [onClose])
+
+  return createPortal(
+    <div className="topic-selector__backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose() }}>
+      <section className="topic-selector" role="dialog" aria-modal="true" aria-labelledby="topic-selector-title" ref={dialogRef}>
+        <div className="topic-selector__heading">
+          <div><p className="eyebrow"><span aria-hidden="true" />Atendimento ABRIAT</p><h2 id="topic-selector-title">Sobre o que você quer falar?</h2></div>
+          <button type="button" className="topic-selector__close" aria-label="Fechar seletor de assunto" onClick={onClose}><X aria-hidden="true" /></button>
+        </div>
+        <div className="topic-selector__options">
+          {contactTopics.map(({ label, message }, index) => (
+            <a
+              href={`https://wa.me/${siteConfig.contacts.whatsappWaMe}?text=${encodeURIComponent(message)}`}
+              key={label}
+              ref={index === 0 ? firstOptionRef : undefined}
+              target="_blank"
+              rel="noreferrer"
+              onClick={onClose}
+            >
+              <span>{label}</span><ArrowRight aria-hidden="true" />
+            </a>
+          ))}
+        </div>
+      </section>
+    </div>,
+    document.body,
   )
 }
 
@@ -243,36 +297,59 @@ export function ProcessSection() {
   )
 }
 
-export function ProfilesSection() {
-  const [active, setActive] = useState(profiles[0].id)
-  const profile = profiles.find((item) => item.id === active) ?? profiles[0]
-  const Icon = profile.icon
-  const selectProfile = (id: string) => {
-    setActive(id)
-    track('profile_interaction', { profile: id })
-  }
-  const handleTabKey = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
-    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return
-    event.preventDefault()
-    const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? profiles.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + profiles.length) % profiles.length
-    selectProfile(profiles[nextIndex].id)
-    event.currentTarget.parentElement?.querySelectorAll('button')[nextIndex]?.focus()
-  }
+const instructorMoments = [
+  { value: 'starting_zero', label: 'Começando do zero', icon: UsersRound },
+  { value: 'attends_range', label: 'Já frequento clube/estande', icon: Target },
+  { value: 'has_experience', label: 'Já tenho experiência', icon: Building2 },
+  { value: 'wants_requirements', label: 'Quero entender os requisitos', icon: ClipboardList },
+] as const
+
+type InstructorMoment = (typeof instructorMoments)[number]['value']
+
+export function FutureInstructorSection() {
+  const [moment, setMoment] = useState<InstructorMoment | null>(null)
+  const [hasRangeRelationship, setHasRangeRelationship] = useState<boolean | null>(null)
+  const selectedMoment = instructorMoments.find((item) => item.value === moment)
+  const message = selectedMoment && hasRangeRelationship !== null
+    ? `Olá! Gostaria de receber orientação sobre o caminho para me tornar instrutor.\nMeu momento atual: ${selectedMoment.label}.\nVínculo com clube/estande: ${hasRangeRelationship ? 'Sim' : 'Não'}.`
+    : null
+  const whatsappUrl = message ? `https://wa.me/${siteConfig.contacts.whatsappWaMe}?text=${encodeURIComponent(message)}` : undefined
+
   return (
-    <section className="section profiles" id="perfis">
-      <div className="container">
-        <SectionHeading eyebrow="Quem pode fazer parte" title={<>A ABRIAT é para quem <em>vive a instrução.</em></>} description="Escolha seu perfil para ver os detalhes." />
-        <div className="profile-tabs" role="tablist" aria-label="Perfis de interesse">
-          {profiles.map((item, index) => (
-            <button key={item.id} type="button" role="tab" tabIndex={active === item.id ? 0 : -1} aria-selected={active === item.id} aria-controls={`panel-${item.id}`} id={`tab-${item.id}`} onKeyDown={(event) => handleTabKey(event, index)} onClick={() => selectProfile(item.id)}>{item.label}</button>
-          ))}
+    <section className="future-instructor" id="quero-ser-instrutor" aria-labelledby="future-instructor-title">
+      <div className="container future-instructor__layout">
+        <header className="future-instructor__intro" data-reveal>
+          <p className="eyebrow eyebrow--light"><span aria-hidden="true" />Ainda não é instrutor?</p>
+          <h2 id="future-instructor-title">Quer entrar para o setor?<em>Comece pelo próximo passo.</em></h2>
+          <p>Conte em que momento você está. A ABRIAT orienta os próximos passos e, quando aplicável, direciona você aos canais adequados.</p>
+        </header>
+        <div className="future-instructor__panel" data-reveal>
+          <fieldset className="future-instructor__fieldset">
+            <legend>Onde você está hoje?</legend>
+            <div className="future-instructor__choices" role="group" aria-label="Selecione seu momento atual">
+              {instructorMoments.map(({ value, label, icon: Icon }) => (
+                <button className={`future-instructor__choice ${moment === value ? 'future-instructor__choice--selected' : ''}`} data-reveal-card type="button" aria-pressed={moment === value} onClick={() => setMoment(value)} key={value}>
+                  <Icon aria-hidden="true" /><span>{label}</span>
+                </button>
+              ))}
+            </div>
+          </fieldset>
+          <fieldset className="future-instructor__fieldset future-instructor__relationship">
+            <legend>Já possui vínculo com clube ou estande?</legend>
+            <div className="future-instructor__relationship-options" role="group" aria-label="Vínculo com clube ou estande">
+              {[true, false].map((value) => (
+                <button className={hasRangeRelationship === value ? 'future-instructor__relationship-choice--selected' : ''} type="button" aria-pressed={hasRangeRelationship === value} onClick={() => setHasRangeRelationship(value)} key={String(value)}>{value ? 'Sim' : 'Não'}</button>
+              ))}
+            </div>
+          </fieldset>
+          <a className={`button future-instructor__whatsapp ${whatsappUrl ? '' : 'future-instructor__whatsapp--disabled'}`} href={whatsappUrl} aria-disabled={!whatsappUrl} tabIndex={whatsappUrl ? 0 : -1} target={whatsappUrl ? '_blank' : undefined} rel={whatsappUrl ? 'noreferrer' : undefined}>
+            <MessageCircle aria-hidden="true" /> Receber orientação no WhatsApp <ArrowRight aria-hidden="true" />
+          </a>
         </div>
-        <div className="profile-panel" role="tabpanel" id={`panel-${profile.id}`} aria-labelledby={`tab-${profile.id}`}>
-          <span className="profile-panel__icon"><Icon aria-hidden="true" /></span>
-          <div><p>Perfil selecionado</p><h3>{profile.title}</h3><span>{profile.text}</span></div>
-          <Check aria-hidden="true" className="profile-panel__check" />
+        <div className="future-instructor__member-link" data-reveal>
+          <p>Já é instrutor certificado?</p>
+          <a href="#filiacao">Iniciar filiação à ABRIAT <ArrowRight aria-hidden="true" /></a>
         </div>
-        <AssociationCta source="profiles" className="profiles__cta">Quero demonstrar interesse</AssociationCta>
       </div>
     </section>
   )

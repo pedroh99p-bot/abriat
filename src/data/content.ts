@@ -1,14 +1,11 @@
 import {
   BadgeCheck,
-  BriefcaseBusiness,
-  Building2,
   GraduationCap,
   Handshake,
   IdCard,
   Megaphone,
   Network,
   ShieldCheck,
-  Target,
   UsersRound,
 } from 'lucide-react'
 
@@ -17,23 +14,28 @@ export const siteConfig = {
     favicon: '/favicon.webp',
     logo: '/assets/navbar-abriat.webp',
     footerLogo: '/assets/logo-abriat-footer.webp',
-    founder: '/assets/paulo-dornelas.webp',
   },
   contacts: {
     whatsappRaw: '83998858705',
     whatsappWaMe: '5583998858705',
     abriatInstagramUsername: '@abriat.brasil',
     abriatInstagramUrl: 'https://www.instagram.com/abriat.brasil/',
-    founderInstagramUsername: '@paulodornelasbr',
-    founderInstagramUrl: 'https://www.instagram.com/paulodornelasbr/',
   },
 } as const
 
 export const navItems = [
+  { label: 'Quem Somos', href: '#quem-somos' },
+  { label: 'Benefícios', href: '#beneficios' },
+  { label: 'Credencial', href: '#carteirinha' },
+  { label: 'Como se filiar', href: '#como-funciona' },
+  { label: 'Dúvidas', href: '#faq' },
+]
+
+export const footerNavItems = [
   { label: 'Sobre', href: '#sobre' },
   { label: 'Benefícios', href: '#beneficios' },
   { label: 'Como funciona', href: '#como-funciona' },
-  { label: 'Para quem', href: '#perfis' },
+  { label: 'Quero ser instrutor', href: '#quero-ser-instrutor' },
   { label: 'Dúvidas', href: '#faq' },
 ]
 
@@ -86,13 +88,6 @@ export const benefits = [
   { title: 'Cursos de aperfeiçoamento gratuitos', text: 'Capacitação contínua para associados.', icon: GraduationCap },
   { title: 'Descontos em clubes parceiros', text: 'Condições especiais na rede parceira.', icon: Handshake },
   { title: 'Divulgação no ecossistema ABRIAT', text: 'Mais visibilidade para o associado.', icon: Megaphone },
-]
-
-export const profiles = [
-  { id: 'instrutor', label: 'Instrutor ativo', title: 'Instrutor em atividade', text: 'Profissionais que atuam diretamente com instrução de armamento e tiro em diferentes contextos e modalidades.', icon: Target },
-  { id: 'clube', label: 'Clube / Centro', title: 'Atuação em clube ou centro', text: 'Instrutores e profissionais que desenvolvem atividades em clubes, estandes, escolas ou centros de treinamento.', icon: Building2 },
-  { id: 'autonomo', label: 'Profissional autônomo', title: 'Profissional independente', text: 'Instrutores independentes e profissionais liberais que buscam mais estrutura, apoio e representatividade.', icon: BriefcaseBusiness },
-  { id: 'interessado', label: 'Quero saber mais', title: 'Interessado na associação', text: 'Profissionais que se identificam com a proposta da ABRIAT e querem entender critérios e próximos passos.', icon: UsersRound },
 ]
 
 export const faqs = [

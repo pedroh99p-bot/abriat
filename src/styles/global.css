@@ -1010,6 +1010,154 @@ html { background: #000; }
   .motion-ready .membership-stage__inner[data-reveal], .motion-ready .membership-stage__inner[data-reveal].is-visible { opacity: 1; transform: none; transition: none; }
 }
 
+/* Institutional manifesto */
+.who-we-are {
+  position: relative;
+  z-index: 3;
+  isolation: isolate;
+  overflow: hidden;
+  margin-top: -28px;
+  padding-block: clamp(78px, 8vw, 116px) clamp(64px, 7vw, 90px);
+  border-radius: 30px 30px 0 0;
+  color: #fff;
+  background-color: #08090b;
+  background-image: linear-gradient(90deg, rgba(5,6,8,.98) 0%, rgba(5,6,8,.92) 43%, rgba(5,6,8,.64) 69%, rgba(5,6,8,.26) 100%), url('/assets/abriat-who-we-are.webp');
+  background-position: center, 62% center;
+  background-size: cover;
+}
+.who-we-are__content { display: grid; gap: 28px; }
+.who-we-are__editorial { max-width: 690px; }
+.who-we-are__editorial h2 { max-width: 660px; margin: 0 0 20px; font-family: var(--display); font-size: clamp(2.7rem, 6.8vw, 5rem); font-weight: 850; line-height: .96; letter-spacing: -.035em; text-transform: uppercase; }
+.who-we-are__editorial h2 em { color: var(--red); font-style: normal; }
+.who-we-are__description { max-width: 600px; margin: 0; color: rgba(255,255,255,.82); font-size: clamp(.98rem, 1.6vw, 1.12rem); line-height: 1.58; }
+.who-we-are__pillars { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; max-width: 700px; }
+.who-we-are__pillar { min-width: 0; min-height: 90px; display: grid; grid-template-columns: 34px 1px minmax(0,1fr); align-items: center; gap: 11px; padding: 14px 13px; border: 1px solid rgba(255,255,255,.2); border-radius: 10px; background: rgba(9,10,12,.68); }
+.who-we-are__pillar > svg { width: 27px; height: 27px; color: var(--red); stroke-width: 1.7; }
+.who-we-are__pillar-divider { width: 1px; height: 42px; background: rgba(255,255,255,.22); }
+.who-we-are__pillar h3 { margin: 0 0 4px; color: #fff; font-family: var(--display); font-size: clamp(.96rem, 1.8vw, 1.22rem); line-height: 1.05; text-transform: uppercase; }
+.who-we-are__pillar p { margin: 0; color: rgba(255,255,255,.68); font-size: .84rem; line-height: 1.35; }
+.who-we-are__social { display: flex; justify-content: space-between; align-items: end; gap: 22px; max-width: 790px; margin-top: 4px; }
+.who-we-are__social h3 { margin: 0 0 5px; font-size: clamp(1.2rem, 2.5vw, 1.65rem); }
+.who-we-are__social p { margin: 0; color: rgba(255,255,255,.72); font-size: 1rem; }
+.who-we-are__actions { display: flex; gap: 10px; }
+.who-we-are__actions .button { min-width: 166px; min-height: 54px; }
+.who-we-are__actions svg { width: 19px; height: 19px; flex: 0 0 auto; }
+
+/* Secondary instructor pathway */
+.future-instructor {
+  position: relative;
+  z-index: 2;
+  isolation: isolate;
+  overflow: hidden;
+  padding-block: clamp(78px, 8vw, 108px);
+  color: #fff;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.055), transparent 48%), linear-gradient(145deg, #111214, #050506 62%, #101113);
+  scroll-margin-top: 96px;
+}
+.future-instructor::before { content: ''; position: absolute; z-index: -1; top: -74px; right: max(3vw, calc((100vw - 1120px) / 2)); width: 360px; aspect-ratio: 1; opacity: .36; background: radial-gradient(circle at center, rgba(227,6,19,.17) 0 29px, transparent 30px), radial-gradient(circle at center, transparent 0 83px, rgba(255,255,255,.11) 84px 86px, transparent 87px), linear-gradient(90deg, transparent calc(50% - 1px), rgba(255,255,255,.13) 50%, transparent calc(50% + 1px)), linear-gradient(0deg, transparent calc(50% - 1px), rgba(255,255,255,.13) 50%, transparent calc(50% + 1px)); pointer-events: none; }
+.future-instructor__layout { display: grid; grid-template-columns: minmax(0, .9fr) minmax(440px, 1.1fr); grid-template-areas: 'intro panel' '. member'; align-items: start; gap: 22px 54px; max-width: 1060px; }
+.future-instructor__intro { grid-area: intro; padding-top: 8px; }
+.future-instructor__intro h2 { margin: 0 0 18px; color: #fff; font-family: var(--display); font-size: clamp(2.55rem, 5vw, 4.15rem); font-weight: 850; line-height: .98; letter-spacing: -.025em; text-transform: uppercase; }
+.future-instructor__intro h2 em { display: block; margin-top: 5px; color: var(--red); font-style: normal; }
+.future-instructor__intro > p:last-child { max-width: 490px; margin: 0; color: rgba(255,255,255,.74); font-size: 1rem; line-height: 1.58; }
+.future-instructor__panel { grid-area: panel; padding: 27px; border: 1px solid rgba(255,255,255,.78); border-radius: 17px; background: #fff; color: #171719; box-shadow: 0 20px 48px rgba(0,0,0,.26); }
+.future-instructor__fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
+.future-instructor__fieldset legend { margin: 0 0 15px; padding: 0; color: #19191b; font-size: clamp(1.16rem, 2vw, 1.42rem); font-weight: 800; }
+.future-instructor__choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.future-instructor__choice { min-width: 0; min-height: 82px; display: grid; grid-template-columns: 28px minmax(0,1fr); align-items: center; gap: 12px; padding: 13px 14px; border: 1px solid #d8d8da; border-radius: 11px; background: #fff; color: #202023; font-size: .94rem; font-weight: 650; line-height: 1.28; text-align: left; cursor: pointer; transition: background-color .16s ease, border-color .16s ease, color .16s ease, transform .16s ease; }
+.future-instructor__choice:hover { border-color: var(--red); }
+.future-instructor__choice:active { transform: scale(.985); }
+.future-instructor__choice svg { width: 25px; height: 25px; color: #19191b; stroke-width: 1.7; }
+.future-instructor__choice--selected { border-color: var(--red); background: var(--red); color: #fff; }
+.future-instructor__choice--selected svg { color: #fff; }
+.future-instructor__relationship { margin-top: 24px; }
+.future-instructor__relationship legend { margin-bottom: 12px; font-size: 1rem; }
+.future-instructor__relationship-options { display: flex; gap: 10px; }
+.future-instructor__relationship-options button { min-width: 112px; min-height: 48px; padding: 8px 18px; border: 1px solid #d8d8da; border-radius: 10px; background: #fff; color: #202023; font-weight: 700; cursor: pointer; }
+.future-instructor__relationship-options button:hover { border-color: var(--red); }
+.future-instructor__relationship-options .future-instructor__relationship-choice--selected { border-color: var(--red); background: #fff0f1; color: #a9000b; }
+.future-instructor__whatsapp { width: 100%; min-height: 62px; justify-content: space-between; margin-top: 22px; padding-inline: 22px; border-radius: 10px; background: var(--red); color: #fff; font-size: 1rem; }
+.future-instructor__whatsapp:hover { background: var(--red-dark); }
+.future-instructor__whatsapp svg:first-child { width: 24px; height: 24px; }
+.future-instructor__whatsapp--disabled { border-color: #dedee0; background: #dedee0; color: #747478; box-shadow: none; cursor: not-allowed; pointer-events: none; }
+.future-instructor__member-link { grid-area: member; justify-self: center; text-align: center; }
+.future-instructor__member-link p { margin: 0 0 5px; color: rgba(255,255,255,.72); }
+.future-instructor__member-link a { display: inline-flex; align-items: center; gap: 8px; color: #fff; font-weight: 700; text-underline-offset: 4px; }
+.future-instructor__member-link svg { width: 18px; height: 18px; }
+
+/* Contact subject selector */
+.topic-selector__backdrop { position: fixed; z-index: 1500; inset: 0; display: grid; place-items: center; padding: 24px; background: rgba(0,0,0,.72); backdrop-filter: blur(4px); }
+.topic-selector { width: min(100%, 500px); padding: 26px; border: 1px solid #e4e4e4; border-radius: 18px; background: #fff; color: #171719; box-shadow: 0 24px 80px rgba(0,0,0,.3); }
+.topic-selector__heading { display: flex; justify-content: space-between; align-items: start; gap: 16px; margin-bottom: 17px; }
+.topic-selector__heading .eyebrow { margin-bottom: 12px; }
+.topic-selector__heading h2 { max-width: 360px; margin: 0; font-family: var(--display); font-size: clamp(1.8rem, 5vw, 2.3rem); line-height: 1.03; text-transform: uppercase; }
+.topic-selector__close { width: 42px; height: 42px; flex: 0 0 auto; display: grid; place-items: center; border: 1px solid #dedee0; border-radius: 50%; background: #fff; color: #222; cursor: pointer; }
+.topic-selector__close svg { width: 19px; height: 19px; }
+.topic-selector__options { display: grid; gap: 8px; }
+.topic-selector__options a { min-height: 52px; display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 10px 14px; border: 1px solid #e1e1e3; border-radius: 9px; color: #202023; font-weight: 700; text-decoration: none; transition: border-color .16s ease, background-color .16s ease; }
+.topic-selector__options a:hover, .topic-selector__options a:focus-visible { border-color: var(--red); background: #fff5f5; }
+.topic-selector__options svg { width: 18px; height: 18px; flex: 0 0 auto; color: var(--red); }
+
+/* Stable viewport assistant state; visibility changes never recalculate its position. */
+.assistant { z-index: 1000; right: max(12px, env(safe-area-inset-right)); bottom: calc(16px + env(safe-area-inset-bottom)); transform: translate3d(0, 6px, 0); transition: opacity .24s ease, transform .24s ease, visibility .24s ease; }
+.assistant--visible { visibility: visible; opacity: 1; pointer-events: auto; transform: translate3d(0, 0, 0); }
+.assistant--hidden { visibility: hidden; opacity: 0; pointer-events: none; transform: translate3d(0, 6px, 0); }
+.assistant__trigger { animation: none; }
+
+@media (max-width: 799px) {
+  .who-we-are { margin-top: -18px; padding-block: 48px 54px; background-image: linear-gradient(90deg, rgba(5,6,8,.96) 0%, rgba(5,6,8,.89) 62%, rgba(5,6,8,.7) 100%), linear-gradient(180deg, rgba(5,6,8,.5), rgba(5,6,8,.7)), url('/assets/abriat-who-we-are.webp'); background-position: center, center, 68% center; }
+  .who-we-are__content { gap: 18px; }
+  .who-we-are__editorial { max-width: 580px; }
+  .who-we-are__editorial h2 { max-width: 530px; margin-bottom: 15px; font-size: clamp(2.45rem, 9.3vw, 3.6rem); }
+  .who-we-are__description { max-width: 470px; font-size: .96rem; line-height: 1.52; }
+  .who-we-are__pillars { gap: 8px; }
+  .who-we-are__pillar { min-height: 70px; grid-template-columns: 28px 1px minmax(0,1fr); gap: 9px; padding: 9px; }
+  .who-we-are__pillar > svg { width: 23px; height: 23px; }
+  .who-we-are__pillar-divider { height: 36px; }
+  .who-we-are__pillar h3 { font-size: clamp(.82rem, 3.3vw, 1rem); }
+  .who-we-are__pillar p { font-size: .74rem; }
+  .who-we-are__social { display: grid; gap: 10px; margin-top: 0; }
+  .who-we-are__social h3 { font-size: 1.35rem; }
+  .who-we-are__social p { font-size: .92rem; }
+  .who-we-are__actions { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px; }
+  .who-we-are__actions .button { min-width: 0; min-height: 48px; gap: 7px; padding-inline: 9px; font-size: .76rem; }
+  .future-instructor { padding-block: 48px 64px; }
+  .future-instructor::before { top: 8px; right: -115px; width: 280px; opacity: .3; }
+  .future-instructor__layout { grid-template-columns: minmax(0,1fr); grid-template-areas: 'intro' 'panel' 'member'; gap: 14px; }
+  .future-instructor__intro { padding-top: 0; }
+  .future-instructor__intro h2 { max-width: 600px; margin-bottom: 14px; font-size: clamp(2.28rem, 8.4vw, 3.2rem); }
+  .future-instructor__intro > p:last-child { max-width: 560px; font-size: .94rem; line-height: 1.5; }
+  .future-instructor__panel { padding: 18px; border-radius: 15px; }
+  .future-instructor__fieldset legend { margin-bottom: 12px; font-size: 1.15rem; }
+  .future-instructor__choices { gap: 8px; }
+  .future-instructor__choice { min-height: 70px; grid-template-columns: 24px minmax(0,1fr); gap: 9px; padding: 10px; font-size: .82rem; }
+  .future-instructor__choice svg { width: 22px; height: 22px; }
+  .future-instructor__relationship { margin-top: 15px; }
+  .future-instructor__relationship legend { font-size: .92rem; }
+  .future-instructor__relationship-options button { min-width: 105px; }
+  .future-instructor__whatsapp { min-height: 58px; justify-content: center; gap: 8px; margin-top: 13px; padding-inline: 10px; font-size: .74rem; white-space: nowrap; }
+  .future-instructor__member-link { margin-top: 1px; }
+  .topic-selector__backdrop { align-items: end; padding: 0; background: rgba(0,0,0,.68); }
+  .topic-selector { width: 100%; max-height: min(84dvh, 720px); overflow-y: auto; padding: 25px 20px max(24px, env(safe-area-inset-bottom)); border-radius: 20px 20px 0 0; }
+  .assistant { right: max(12px, env(safe-area-inset-right)); bottom: calc(16px + env(safe-area-inset-bottom)); }
+}
+
+@media (max-width: 359px) {
+  .who-we-are__actions .button { font-size: .68rem; }
+  .future-instructor__panel { padding: 16px; }
+  .future-instructor__choice { grid-template-columns: 21px minmax(0,1fr); gap: 7px; padding: 9px 8px; font-size: .76rem; }
+}
+
+@media (min-width: 800px) {
+  .future-instructor__intro h2 { font-size: clamp(2.7rem, 4.4vw, 3.8rem); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .who-we-are [data-reveal], .who-we-are [data-reveal-card], .future-instructor [data-reveal], .future-instructor [data-reveal-card] { opacity: 1; transform: none; transition: none; }
+  .future-instructor__choice, .topic-selector__options a, .assistant { transition: none; }
+  .future-instructor__choice:active { transform: none; }
+}
+
 /* Benefit card row layout and stable assistant anchoring */
 .benefit-card {
   display: grid;

@@ -5,15 +5,17 @@ import { track } from '../lib/analytics'
 
 const actions = [
   { label: 'Como me associar?', answer: 'Comece preenchendo seus dados iniciais de filiação. A equipe responsável poderá orientar sobre critérios, documentos e próximos passos.', target: '#filiacao' },
-  { label: 'Quero me tornar instrutor', answer: 'A ABRIAT pode orientar seu próximo passo e, quando aplicável, direcionar você a um estande ou parceiro para receber as orientações necessárias sobre o processo.', target: '#filiacao' },
-  { label: 'Quem pode fazer parte?', answer: 'Instrutores, profissionais autônomos e pessoas que atuam em clubes, estandes, escolas ou centros de treinamento podem demonstrar interesse.', target: '#perfis' },
+  { label: 'Quero me tornar instrutor', answer: 'Conte em que momento você está. A ABRIAT orienta os próximos passos e, quando aplicável, direciona você aos canais adequados.', target: '#quero-ser-instrutor' },
+  { label: 'Como funciona para novos instrutores?', answer: 'Selecione seu momento atual e informe se possui vínculo com clube ou estande para receber orientação institucional.', target: '#quero-ser-instrutor' },
   { label: 'Quais são os benefícios?', answer: 'A ABRIAT oferece carteira de identificação, cursos gratuitos de aperfeiçoamento, descontos em clubes parceiros, 50% de desconto na assessoria Doutor das Armas e divulgação para associados.', target: '#beneficios' },
   { label: 'Quero falar com a equipe', answer: 'Preencha seus dados iniciais e revise a mensagem antes de enviar pelo WhatsApp à equipe ABRIAT.', target: '#filiacao' },
 ]
 
 export function Assistant() {
   const [open, setOpen] = useState(false)
-  const [hasPassedForm, setHasPassedForm] = useState(false)
+  const [hasEnteredMainContent, setHasEnteredMainContent] = useState(false)
+  const [isFooterVisible, setIsFooterVisible] = useState(false)
+  const [isFormFocused, setIsFormFocused] = useState(false)
   const [answer, setAnswer] = useState('Olá! Posso ajudar com informações sobre a ABRIAT e o processo de associação.')
   const [selected, setSelected] = useState<(typeof actions)[number]>(actions[0])
   const closeRef = useRef<HTMLButtonElement>(null)
@@ -29,8 +31,7 @@ export function Assistant() {
     if (!form) return
     const syncEntry = () => {
       const formBottom = form.getBoundingClientRect().bottom + window.scrollY
-      const hasPassed = window.scrollY > formBottom
-      setHasPassedForm((current) => current === hasPassed ? current : hasPassed)
+      if (window.scrollY > formBottom) setHasEnteredMainContent(true)
     }
     syncEntry()
     window.addEventListener('scroll', syncEntry, { passive: true })
@@ -42,43 +43,31 @@ export function Assistant() {
   }, [])
 
   useEffect(() => {
-    const assistant = document.querySelector<HTMLElement>('.assistant')
-    const trigger = assistant?.querySelector<HTMLElement>('.assistant__trigger')
-    if (!assistant || !trigger) return
+    const footer = document.querySelector<HTMLElement>('.footer')
+    if (!footer || !('IntersectionObserver' in window)) return
+    const observer = new IntersectionObserver(([entry]) => setIsFooterVisible(entry.isIntersecting), { rootMargin: '0px 0px -96px 0px' })
+    observer.observe(footer)
+    return () => observer.disconnect()
+  }, [])
 
+  useEffect(() => {
     let frame = 0
-    const updateClearance = () => {
+    const syncFormFocus = () => {
       cancelAnimationFrame(frame)
       frame = requestAnimationFrame(() => {
-        if (!hasPassedForm || open) {
-          assistant.classList.remove('assistant--content-visible')
-          return
-        }
-
-        const triggerRect = trigger.getBoundingClientRect()
-        const blockers = document.querySelectorAll<HTMLElement>('.pillar-card, .benefits .section-heading, .swipe-hint, .benefit-track, .benefits__cta, .credential-section__heading, .credential-section__visual, .credential-feature, .credential-details, .credential-section__cta')
-        let overlapsContent = false
-        blockers.forEach((blocker) => {
-          const rect = blocker.getBoundingClientRect()
-          const overlaps = triggerRect.left < rect.right && triggerRect.right > rect.left && triggerRect.top < rect.bottom && triggerRect.bottom > rect.top
-          if (overlaps) overlapsContent = true
-        })
-        const footer = document.querySelector<HTMLElement>('.footer')
-        const footerNear = footer ? footer.getBoundingClientRect().top < window.innerHeight - 88 : false
-        assistant.classList.toggle('assistant--content-visible', overlapsContent || footerNear)
+        const active = document.activeElement
+        setIsFormFocused(active instanceof HTMLElement && Boolean(active.closest('.quiz-shell')) && /^(INPUT|SELECT|TEXTAREA)$/.test(active.tagName))
       })
     }
-
-    updateClearance()
-    window.addEventListener('scroll', updateClearance, { passive: true })
-    window.addEventListener('resize', updateClearance)
+    document.addEventListener('focusin', syncFormFocus)
+    document.addEventListener('focusout', syncFormFocus)
+    syncFormFocus()
     return () => {
       cancelAnimationFrame(frame)
-      window.removeEventListener('scroll', updateClearance)
-      window.removeEventListener('resize', updateClearance)
-      assistant.classList.remove('assistant--content-visible')
+      document.removeEventListener('focusin', syncFormFocus)
+      document.removeEventListener('focusout', syncFormFocus)
     }
-  }, [hasPassedForm, open])
+  }, [])
 
   useEffect(() => {
     if (!open) return
@@ -106,8 +95,10 @@ export function Assistant() {
     setOpen(false)
   }
 
+  const isVisible = hasEnteredMainContent && !isFooterVisible && !isFormFocused
+
   return createPortal((
-    <aside className={`assistant ${open ? 'assistant--open' : ''} ${hasPassedForm ? 'assistant--eligible' : ''}`} aria-label="Assistente ABRIAT" aria-hidden={!hasPassedForm}>
+    <aside className={`assistant ${open ? 'assistant--open' : ''} ${isVisible ? 'assistant--visible' : 'assistant--hidden'}`} aria-label="Assistente ABRIAT" aria-hidden={!isVisible}>
       {open ? (
         <div className="assistant__panel" role="dialog" aria-modal="false" aria-labelledby="assistant-title">
           <div className="assistant__header"><span><Bot aria-hidden="true" /></span><div><strong id="assistant-title">Assistente ABRIAT</strong><small>Informações institucionais</small></div><button ref={closeRef} type="button" aria-label="Fechar assistente" onClick={() => setOpen(false)}><X aria-hidden="true" /></button></div>
