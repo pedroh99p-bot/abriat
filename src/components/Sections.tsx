@@ -37,18 +37,35 @@ export function WhySection() {
 
 export function BenefitsSection() {
   const tracked = useRef(false)
+  const [activeBenefit, setActiveBenefit] = useState(0)
+  const trackRef = useRef<HTMLDivElement>(null)
   const handleInteraction = () => {
     if (!tracked.current) {
       track('benefits_interaction', { interaction: 'horizontal_carousel' })
       tracked.current = true
     }
   }
+  const updateActiveBenefit = () => {
+    const track = trackRef.current
+    if (!track) return
+    const cards = Array.from(track.children) as HTMLElement[]
+    let nearest = 0
+    let distance = Number.POSITIVE_INFINITY
+    cards.forEach((card, index) => {
+      const nextDistance = Math.abs(card.offsetLeft - track.scrollLeft)
+      if (nextDistance < distance) {
+        nearest = index
+        distance = nextDistance
+      }
+    })
+    setActiveBenefit(nearest)
+  }
   return (
     <section className="section benefits" id="beneficios">
       <div className="container">
         <SectionHeading eyebrow="Benefícios do associado" title={<>Vantagens reais para <em>sua atuação.</em></>} description="Recursos e condições especiais que acompanham o associado ABRIAT." />
         <p className="swipe-hint">Deslize para ver os benefícios <ArrowRight size={16} aria-hidden="true" /></p>
-        <div className="benefit-track" onScroll={handleInteraction} onPointerDown={handleInteraction} tabIndex={0} role="region" aria-roledescription="carrossel" aria-label="Benefícios do associado">
+        <div ref={trackRef} className="benefit-track" onScroll={() => { handleInteraction(); updateActiveBenefit() }} onPointerDown={handleInteraction} tabIndex={0} role="region" aria-roledescription="carrossel" aria-label="Benefícios do associado">
           {benefits.map((benefit, index) => {
             const Icon = 'icon' in benefit ? benefit.icon : undefined
             return (
@@ -60,6 +77,9 @@ export function BenefitsSection() {
               </article>
             )
           })}
+        </div>
+        <div className="benefit-indicator" aria-hidden="true">
+          {benefits.map((benefit, index) => <span className={index === activeBenefit ? 'is-active' : ''} key={benefit.title} />)}
         </div>
         <AssociationCta source="benefits" className="benefits__cta">Iniciar minha filiação</AssociationCta>
       </div>

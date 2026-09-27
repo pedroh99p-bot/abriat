@@ -81,10 +81,10 @@ export const pillars = [
 ]
 
 export const benefits = [
+  { title: 'Assessoria Doutor das Armas', text: 'Condição especial para associados ABRIAT.', highlight: '50% de desconto', logo: '/assets/partner-doutor-das-armas.webp' },
   { title: 'Carteira de identificação', text: 'Identificação do associado ABRIAT.', icon: IdCard },
   { title: 'Cursos de aperfeiçoamento gratuitos', text: 'Capacitação contínua para associados.', icon: GraduationCap },
   { title: 'Descontos em clubes parceiros', text: 'Condições especiais na rede parceira.', icon: Handshake },
-  { title: 'Assessoria Doutor das Armas', text: 'Condição especial para associados ABRIAT.', highlight: '50% de desconto', logo: '/assets/partner-doutor-das-armas.webp' },
   { title: 'Divulgação no ecossistema ABRIAT', text: 'Mais visibilidade para o associado.', icon: Megaphone },
 ]
 

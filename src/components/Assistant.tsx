@@ -1,5 +1,6 @@
 import { Bot, Send, X } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { track } from '../lib/analytics'
 
 const actions = [
@@ -49,24 +50,22 @@ export function Assistant() {
     const updateClearance = () => {
       cancelAnimationFrame(frame)
       frame = requestAnimationFrame(() => {
-        assistant.style.setProperty('--assistant-lift', '0px')
         if (!hasPassedForm || open) {
           assistant.classList.remove('assistant--content-visible')
           return
         }
 
         const triggerRect = trigger.getBoundingClientRect()
-        const blockers = document.querySelectorAll<HTMLElement>('.pillar-card, .benefits .section-heading, .benefit-track, .benefits__cta, .credential-section__heading, .credential-section__visual, .credential-details, .credential-section__cta')
-        let lift = 0
+        const blockers = document.querySelectorAll<HTMLElement>('.pillar-card, .benefits .section-heading, .swipe-hint, .benefit-track, .benefits__cta, .credential-section__heading, .credential-section__visual, .credential-feature, .credential-details, .credential-section__cta')
+        let overlapsContent = false
         blockers.forEach((blocker) => {
           const rect = blocker.getBoundingClientRect()
           const overlaps = triggerRect.left < rect.right && triggerRect.right > rect.left && triggerRect.top < rect.bottom && triggerRect.bottom > rect.top
-          if (overlaps) lift = Math.max(lift, triggerRect.bottom - rect.top + 14)
+          if (overlaps) overlapsContent = true
         })
-
-        const maxLift = Math.max(0, window.innerHeight - triggerRect.height - 90)
-        assistant.classList.toggle('assistant--content-visible', lift > maxLift)
-        assistant.style.setProperty('--assistant-lift', `${Math.min(lift, maxLift)}px`)
+        const footer = document.querySelector<HTMLElement>('.footer')
+        const footerNear = footer ? footer.getBoundingClientRect().top < window.innerHeight - 88 : false
+        assistant.classList.toggle('assistant--content-visible', overlapsContent || footerNear)
       })
     }
 
@@ -78,7 +77,6 @@ export function Assistant() {
       window.removeEventListener('scroll', updateClearance)
       window.removeEventListener('resize', updateClearance)
       assistant.classList.remove('assistant--content-visible')
-      assistant.style.removeProperty('--assistant-lift')
     }
   }, [hasPassedForm, open])
 
@@ -108,7 +106,7 @@ export function Assistant() {
     setOpen(false)
   }
 
-  return (
+  return createPortal((
     <aside className={`assistant ${open ? 'assistant--open' : ''} ${hasPassedForm ? 'assistant--eligible' : ''}`} aria-label="Assistente ABRIAT" aria-hidden={!hasPassedForm}>
       {open ? (
         <div className="assistant__panel" role="dialog" aria-modal="false" aria-labelledby="assistant-title">
@@ -127,5 +125,5 @@ export function Assistant() {
         <span><Bot aria-hidden="true" /></span><span><strong>Assistente ABRIAT</strong><small>Tire suas dúvidas</small></span>
       </button>
     </aside>
-  )
+  ), document.body)
 }

@@ -820,7 +820,7 @@ html { background: #000; }
   .credential-details__panel, .credential-details button svg { transition: none; }
 }
 
-.assistant { right: max(12px, env(safe-area-inset-right)); bottom: calc(max(12px, env(safe-area-inset-bottom)) + var(--assistant-lift, 0px)); }
+.assistant { right: max(12px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom)); }
 .assistant--eligible { transform: translate3d(0, 0, 0); }
 .motion-ready .credential-section__visual[data-reveal] { opacity: 0; transform: translateY(24px) scale(.97); transition: opacity .6s ease, transform .6s cubic-bezier(.2,.65,.25,1); }
 .motion-ready .credential-section__visual[data-reveal].is-visible { opacity: 1; transform: translateY(0) scale(1); }
@@ -833,6 +833,44 @@ html { background: #000; }
 
 @media (prefers-reduced-motion: reduce) {
   .motion-ready .credential-section__visual[data-reveal], .motion-ready .credential-section__visual[data-reveal].is-visible { opacity: 1; transform: none; transition: none; }
+}
+
+/* Mobile rhythm refinements for About, benefits, credential, and assistant */
+@media (max-width: 799px) {
+  #sobre, #beneficios, #carteirinha { scroll-margin-top: 88px; }
+  .why { padding-block: 62px 56px; }
+  .pillar-grid { grid-template-columns: 1fr; gap: 9px; margin-top: 21px; }
+  .pillar-card { min-height: 0; padding: 12px 14px; }
+  .benefits { margin-top: -12px; padding-block: 56px 68px; }
+  .swipe-hint { margin: 15px 0 7px; }
+  .benefit-track { gap: 12px; padding: 4px 1rem 14px 0; scroll-snap-type: x mandatory; }
+  .benefit-card { flex: 0 0 80vw; min-height: 204px; padding: 19px 18px; scroll-snap-align: start; }
+  .benefit-card__icon { width: 24px; height: 24px; margin-bottom: 14px; }
+  .benefit-card__partner-logo { width: 66px; height: 66px; margin: -4px auto 5px; }
+  .benefit-card__highlight { margin-bottom: 6px; font-size: .66rem; }
+  .benefit-card h3 { margin-bottom: 6px; font-size: 1.15rem; }
+  .benefit-card p { font-size: .82rem; }
+  .benefit-indicator { display: flex; justify-content: center; gap: 6px; min-height: 6px; margin-top: 2px; }
+  .benefit-indicator span { width: 5px; height: 5px; border-radius: 999px; background: #c5c5c2; transition: width .2s ease, background-color .2s ease; }
+  .benefit-indicator span.is-active { width: 17px; background: var(--red); }
+  .benefits__cta { margin-top: 30px; }
+  .credential-section { padding-block: 58px 68px; }
+  .credential-section__layout { gap: 4px; }
+  .credential-section__visual { margin: -60px 0 0; }
+  .credential-section__visual img { width: min(100%, 540px); margin-bottom: -84px; }
+  .credential-features { gap: 10px; margin-bottom: 18px; }
+  .credential-details { margin-bottom: 18px; }
+  .assistant { right: max(12px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom)); }
+  .assistant__trigger { min-height: 54px; }
+}
+
+@media (min-width: 360px) and (max-width: 799px) {
+  .assistant__trigger small { display: none; }
+}
+
+@media (max-width: 359px) {
+  .benefit-card { flex-basis: 82vw; }
+  .assistant__trigger small { display: none; }
 }
 
 /* Membership hero conversion pass */
